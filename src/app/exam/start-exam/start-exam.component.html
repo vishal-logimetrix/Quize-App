@@ -1,0 +1,181 @@
+<div class="disply-container">
+    <div class="practicePaperSecondSection mathjax" #mathjax>
+        <div class="container">
+            <div class="row practiceExamScreen">
+                <div class="col-xl-8 practiceQuestionAndSolutionDiv">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 ">
+                                <h2>Question : {{currentQuestion + 1}} / {{questions?.length}}</h2>
+                            </div>
+                            <div class="col-xl-5 col-lg-5 col-md-5">
+                                <div class="bookmarkReportDiv">
+                                    <div>
+                                        <a href="javascript:void(0)" *ngIf="!currentQuesBookmarked" (click)="bookmark()">
+                                            <i class="fa fa-bookmark-o" aria-hidden="true"></i>
+                                        </a>
+                                        <a *ngIf="currentQuesBookmarked" (click)="unmark()">
+                                            <i class="fa fa-bookmark" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <a href="javascript:void(0)" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                            <span class="iconify" (click)="resetIssue()"
+                                                data-icon="eva:alert-triangle-outline" style="color: #ff1900;"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-12">
+                                <!-- QUESTION BODY -->
+                                <div class="card-body question-content QuestionAndSolutionSection">
+                                    <!-- Question Text & Image -->
+                                    <div class="text-black">
+                                        <div class="mt-2">
+                                            <ng-container *ngFor="let item of questions; let i = index">
+                                                <p *ngIf="i === currentQuestion"
+                                                    class="font-sm-1 mb-1 comprehension-question"
+                                                    [innerHtml]="questions[currentQuestion]?.question">
+                                                </p>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                    <!-- Question Options for MCQ or MCC Type -->
+                                    <div class="mt-3">
+                                        <div class="mb-2 option-container">
+                                            <ul>
+                                                <!-- <li class="cursor-pointer mb-2 text-black"
+                                                    *ngFor="let option of questions[currentQuestion]?.options; let optionIndex = index">
+                                                    <div class="d-flex">
+                                                        <label class="labl">
+                                                            <input type="radio" name="option"
+                                                                id="{{option['id']}}"
+                                                                [checked]="optionIndex === selectedOptionIndex"
+                                                                (click)="selectMCQ($event, optionIndex)" />
+                                                            <div>
+                                                                <span
+                                                                    class="font-weight-bold font-sm-1 optionNumbering">{{optionIndex + 1}}</span>
+                                                                <span class="ml-3 option-text font-sm-1"
+                                                                    [innerHtml]="option"></span>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                </li> -->
+                                                <li class="cursor-pointer mb-2 text-black"
+                                                *ngFor="let option of questions[currentQuestion]?.options; let optionIndex = index"
+                                                [ngClass]="{'selected-option': optionIndex === selectedOptionIndex}">
+                                                <div class="d-flex">
+                                                    <label class="labl">
+                                                        <input type="radio" name="option" id="{{option['id']}}"
+                                                            [checked]="optionIndex === selectedOptionIndex"
+                                                            (click)="selectMCQ($event, optionIndex)" />
+                                                        <div>
+                                                            <span class="font-weight-bold font-sm-1 optionNumbering">{{optionIndex + 1}}</span>
+                                                            <span class="ml-3 option-text font-sm-1" [innerHtml]="option"></span>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="hiddenDiv">
+                                        <div *ngIf="question?.type_of_question !== 'boolean'" class="solutionDiv">
+                                            <div *ngIf="question?.completed || question?.attempt" class="mt-2"
+                                                id="targetGreen">
+                                                <b>Solution</b>
+                                                <p class="mb-0" [innerHtml]="solutionDetails?.text "><strong></strong>
+                                                </p>
+                                                <div class="closeSolutionDiv">
+                                                    <button (click)="closeSolutionFunction()"
+                                                        class="btn btnCloseSolution">Close Solution</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-12">
+                                <div class="allButtonsDiv">
+                                    <div class="prevNextBtnDiv">
+                                        <div>
+                                            <a href="javascript:void(0)" (click)="previousQuestion()">
+                                                <span [ngClass]="{'no-question': currentQuestion===0}"><i
+                                                        class="fa fa-angle-double-left"></i> Previous</span>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a href="javascript:void(0)" class="ml-4" (click)="nextQuestion()"
+                                                [ngClass]="{'no-question': currentQuestion === totalQuestions-1 }">
+                                                Next <span><i class="fa fa-angle-double-right"
+                                                        aria-hidden="true"></i></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div><button type="button" class="btn btn-sm btn-success" data-toggle="modal"
+                                            data-target="" (click)="calculateScore()">Finish Practice</button></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 practiceLegendsDiv">
+                    <div class="card">
+                        <h2>Question Status</h2>
+                        <div class="row questionNumberHEight">
+                            <div class="col-xl-15" *ngFor="let question of questions; let i=index">
+                                <!-- <button type="button"
+                                    class="btn btnNumbers d-inline-flex justify-content-center align-items-center"
+                                    [ngClass]="i===currentQuestion ? 'btn-visited' + ' ' + getCircleClass(i) : getCircleClass(i)"
+                                    (click)="jumpToQuestion(i)">
+                                    {{i + 1}}
+                                    <span *ngIf="question['sReview']"><i class="fa fa-check" aria-hidden="true"></i>
+                                        <i class="fa fa-bookmark bookmarkgreen" aria-hidden="true"></i>
+                                    </span>
+                                    <span *ngIf="question['review']">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    </span>
+                                </button> -->
+                                <div class="circleSection">
+                                    <div class="circle">{{i + 1}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="separtaor"></div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="circleSection">
+                                    <div class="circle">{{currentQuestion + 1}}</div>
+                                    <h2>Current</h2>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="circleSection">
+                                    <div class="circleOne">{{ notAttemptedQuestions.length }}</div>
+                                    <!-- <div class="circleOne">{{ totalQuestions - (completedCount.length +
+                                        reviewCount.length + savedReviewCount.length + notAnswerdCount.length) }}</div> -->
+                                    <h2>Not Attempted</h2>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="circleSection">
+                                    <div class="circleTwo">{{ answeredQuestionValues.length }}</div>
+                                    <h2>Answered</h2>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="circleSection">
+                                    <div class="circleThree">{{ visitedNotAnsweredQuestions.length }}</div>
+                                    <h2>Visited & Unanswered</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

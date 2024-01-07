@@ -1,0 +1,170 @@
+<div class="wrapper">
+    <aside id="sidebar" [ngClass]="{ 'active': isSidebarOpen }" class="sidebar-col">
+        <div class="sidebar-header">
+            <img src="assets/img/vaikom_logo.png" alt="VIKOM-LOGO">
+        </div>
+        <ul class="list-unstyled components">
+            <li>
+                <a routerLink="/dashboard">Dashboard</a>
+            </li>
+            <li>
+                <a routerLink="/select-board">Exam's</a>
+            </li>
+            <li>
+                <a routerLink="/overall-history">Overall history</a>
+            </li>
+            <li>
+                <a routerLink="/post-your-query">Post Your Query</a>
+            </li>
+            <li>
+                <a routerLink="/login">Logout</a>
+            </li>
+        </ul>
+    </aside>
+    <div class="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" id="landingNav">
+            <button type="button" id="sidebarCollapse" class="btn btn-info" (click)="toggleSidebar()">
+                <i class="fa fa-align-justify"></i>&nbsp;&nbsp;<span></span>
+            </button>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto mr-2">
+                    <li class="nav-item ">
+                        <a class="nav-link" routerLink="/home-content">Home </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/about-Us">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/contact-Us">Contact Us</a>
+                    </li>
+                    <li class="nav-item dropdown" id="userDropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="far fa-user-circle"></i> &nbsp;<span>Vishal</span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" routerLink="/profile">Profile</a></li>
+                            <!-- <li><a class="dropdown-item" href="#">Payment History</a></li> -->
+                            <li><hr class="dropdown-divider"></li>
+                            <!-- <li><a class="dropdown-item" routerLink="">Change Password</a></li> -->
+                            <li><a class="dropdown-item" routerLink="/login">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="main-content">
+            <div class="disply-container" *ngIf="dashboardContentShow">
+                <div class="disply-container" >
+                    <!-- <div class="row">
+                         <div class="firstRowLine">
+                            <div class="f_row" id="div1">
+                                <h4>Total Registered Students</h4>
+                               <div class="row">
+                                <div class="col-md-6">
+                                    <span><i class="fa fa-user"></i></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="number">15</span>
+                                </div>
+                               </div>
+                            </div>
+                            <div class="f_row" id="div2">
+                                <h4>Total Active Student</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span><i class="fa fa-user"></i></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="number">15</span>
+                                    </div>
+                                   </div>
+                            </div>
+                            <div class="f_row" id="div3">
+                                <h4>Daily Exam Attempts</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span><i class="fa fa-user"></i></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="number">15</span>
+                                    </div>
+                                   </div>
+                            </div>
+                            <div class="f_row" id="div4">
+                                <h4>Top 3 Students</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span><i class="fa fa-user"></i></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="number">15</span>
+                                    </div>
+                                   </div>
+                            </div>
+                         </div>
+                    </div> -->
+                    </div>
+                <div class="disply-containe" >
+                    <div class="time">
+                        <p class="timePara" style=" margin-right: 10px; display: inline-block;">{{ currentTime | date: 'EEEE , hh:mm:ss a' }}</p>
+                    </div>
+                    <div class="row">
+                         <div class="firstRowLine">
+                            <div class="f_row2" id="div1">
+                                    <img class="img" src="assets/img/facebook.webp" alt="">
+                               <div class="row">
+                                <div class="col-md-6">
+                                    <span><h4>80k</h4> Freinds</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="number">500 Feeds</span>
+                                </div>
+                               </div>
+                            </div>
+                            <div class="f_row2" id="div1">
+                                <img class="img" src="assets/img/twitter.webp" alt="">
+                           <div class="row">
+                            <div class="col-md-6">
+                                <span><h4>900K</h4> followers</span>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="number">1.5 Twitts</span>
+                            </div>
+                           </div>
+                        </div>
+                        <div class="f_row2" id="div1">
+                            <img class="img" src="assets/img/linkedIn.png" alt="">
+                       <div class="row">
+                        <div class="col-md-6">
+                            <span><h4>500+</h4> Contacts</span>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="number">1.5 Feeds</span>
+                        </div>
+                       </div>
+                    </div>
+                    <div class="f_row2" id="div1">
+                        <img class="img" src="assets/img/calender.jpg" alt="">
+                   <div class="row">
+                    <div class="col-md-6">
+                        <span><h4>12+</h4> Events</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="number">5 Meetings</span>
+                    </div>
+                   </div>
+                </div>
+                         </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <br>
+<!-- </div> -->

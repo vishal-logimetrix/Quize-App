@@ -1,0 +1,18 @@
+.form-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10% !important;
+    /* width: 100%; */
+}
+.row{
+    align-items: center;
+}
+.card{
+    width: 600px;
+}
+.card-header, .card-footer{
+    text-align: center;
+}

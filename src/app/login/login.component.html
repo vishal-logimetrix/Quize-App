@@ -1,0 +1,140 @@
+<div class="container">
+  <div class="row" *ngIf="isLogin">
+    <div class="login-box">
+      <div class="login-title">
+        <h1>Login</h1>
+      </div>
+      <div class="login-form">
+        <form #loginForm="ngForm" (ngSubmit)="loginUser(loginForm.value)" novalidate>
+          <div class="form-group">
+            <label class="form-control-label">USERNAME</label>
+            <input type="text" class="form-control" name="username" ngModel required>
+            <div class="errorMsg"
+              *ngIf="loginForm.controls['username']?.invalid && loginForm.controls['username']?.touched">
+              Username is required.
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-control-label">PASSWORD</label>
+            <input type="password" class="form-control" name="password" ngModel required>
+            <div class="errorMsg"
+              *ngIf="loginForm.controls['password']?.invalid && loginForm.controls['password']?.touched">
+              password is required.
+            </div>
+          </div>
+          <div class="loginbttm">
+            <div class="login-btm login-button">
+              <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">LOGIN</button>
+              <p><a class="msgLink" (click)="changeLoginForm()">don't have an account? Register here!</a></p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="isRegister">
+    <div class=""></div>
+    <div class=" login-box" id="login-box">
+      <div class=" login-title">
+        <h1>Register</h1>
+      </div>
+      <div class=" login-form">
+        <form [formGroup]="registerForm" (ngSubmit)="RegisterStudent()">
+          <div class="form-controls">
+            <div class="form-group">
+              <label class="form-control-label" id="register-labels">NAME</label>
+              <input type="text" class="form-control" formControlName="name">
+              <div class="errorMsg"
+                *ngIf="registerForm.controls['name']?.invalid && registerForm.controls['name']?.   touched">
+                name is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-control-label" id="register-labels">MOBILE NO</label>
+              <input type="number" minlength="10" maxlength="10" class="form-control" formControlName="mobileNo">
+              <div class="errorMsg">
+                <div *ngIf="registerForm.get('mobileNo')?.invalid && registerForm.get('mobileNo')?.touched">
+                  <!-- <p>Mobile no is required</p> -->
+                  <small class="errorMsg" *ngIf="registerForm.get('mobileNo')?.errors?.hasOwnProperty('pattern')">Please
+                    enter 10 digits.</small>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-control-label" id="register-labels">Email</label>
+              <input type="email" class="form-control" formControlName="email">
+              <div class="errorMsg"
+                *ngIf="registerForm.controls['email']?.invalid && registerForm.controls['email']?.   touched">
+                email is required.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" id="register-labels"> PASSWORD</label>
+              <input type="password" class="form-control" formControlName="password">
+              <div class="errorMsg"
+                *ngIf="registerForm.get('password')?.hasError('minlength') && registerForm.get('password')?.dirty">
+                Password should be at least 6 characters long.
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-control-label" id="register-labels">CONFIRM PASSWORD</label>
+              <input type="password" class="form-control" formControlName="confirmPassword">
+              <div class="errorMsg"
+                *ngIf="registerForm.get('confirmPassword')?.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.dirty">
+                Passwords do not match.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-control-label" id="register-labels">SELECT CLASS</label>
+              <select name="class-dropdown" id="class-dropdown" class="form-control" formControlName="selectedClass">
+                <option value="" disabled selected>Select Class</option>
+                <option value="class-1">Class 1</option>
+                <option value="class-2">Class 2</option>
+                <option value="class-3">Class 3</option>
+                <option value="class-4">Class 4</option>
+              </select>
+              <div class="errorMsg"
+                *ngIf="registerForm.controls['selectedClass']?.invalid && registerForm.controls['selectedClass']?.touched">
+                please select the class.
+              </div>
+            </div>
+          </div>
+          <div class=" loginbttm">
+            <div class="login-btm login-text"></div>
+            <div class="login-btm login-button">
+              <button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid">Register</button>
+              <p><a class="msgLink" (click)="changeRegisterForm()">Already have an account? Login here!</a></p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="registerSuccessMsg">
+    <div class="login-box" id="registerMsgBox">
+      <div class=" login-title">
+        <h1> Register Success!</h1>
+      </div>
+      <br>
+      <div class=" success-img">
+        <img class="successImg" src="assets/img/success.jpg" alt="RegisterSuccessImg ">
+      </div>
+      <br>
+      <p><a class="msgLink" (click)="changeRegisterForm()">Congatrs! you have registeres successfully. Click here to
+          login</a></p>
+      <br>
+    </div>
+  </div>
+</div>
+<div class="content" role="main">
+  <svg id="clouds" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677" viewBox="0 0 2611.084 485.677">
+    <title>Gray Clouds Background</title>
+    <path id="Path_39" data-name="Path 39"
+      d="M2379.709,863.793c10-93-77-171-168-149-52-114-225-105-264,15-75,3-140,59-152,133-30,2.83-66.725,9.829-93.5,26.25-26.771-16.421-63.5-23.42-93.5-26.25-12-74-77-130-152-133-39-120-212-129-264-15-54.084-13.075-106.753,9.173-138.488,48.9-31.734-39.726-84.4-61.974-138.487-48.9-52-114-225-105-264,15a162.027,162.027,0,0,0-103.147,43.044c-30.633-45.365-87.1-72.091-145.206-58.044-52-114-225-105-264,15-75,3-140,59-152,133-53,5-127,23-130,83-2,42,35,72,70,86,49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33,61.112,8.015,113.854-5.72,150.492-29.764a165.62,165.62,0,0,0,110.861-3.236c47,94,178,113,251,33,31.385,4.116,60.563,2.495,86.487-3.311,25.924,5.806,55.1,7.427,86.488,3.311,73,80,204,61,251-33a165.625,165.625,0,0,0,120,0c51,13,108,15,157-5a147.188,147.188,0,0,0,33.5-18.694,147.217,147.217,0,0,0,33.5,18.694c49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33C2446.709,1093.793,2554.709,922.793,2379.709,863.793Z"
+      transform="translate(142.69 -634.312)" fill="#eee" />
+  </svg>
+</div>
