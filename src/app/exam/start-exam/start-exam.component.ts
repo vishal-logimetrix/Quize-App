@@ -1,15 +1,8 @@
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-  QueryList,
-  Renderer2,
-  ViewChild,
-  ViewChildren,
-} from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, QueryList, Renderer2, ViewChild, ViewChildren,} from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { TryReportService } from 'src/Services/try-report.service';
 
 @Component({
   selector: 'app-start-exam',
@@ -81,11 +74,17 @@ export class StartExamComponent implements OnInit {
     },
     // Add more questions here...
   ];
-  
+
   selectedOptions: number[] = [];
   questionTexts: any;
   currentQuestionIndex: number = 0;
-  constructor(private renderer: Renderer2) {}
+
+
+  constructor(private renderer: Renderer2, private _router: Router, private _tryReportService: TryReportService) {
+    this._tryReportService.getQuestionsLength(this.questions);
+  }
+
+
   testObj: any;
   question: any;
   bookmarks: any;
@@ -118,6 +117,7 @@ export class StartExamComponent implements OnInit {
     id = 'regi' + i;
     document.getElementById(id)?.classList.add('selected');
   }
+  
   // Question Count
   notAnswerdCount = [];
   completedCount = [];
@@ -163,7 +163,8 @@ findNotAttemptedQuestions() {
   this.notAttemptedQuestions = this.questions.filter((question:any) => {
     return !this.answeredQuestions.some(answer => answer.questionId === question.id);
   });
-  // console.log('Not Attempted Questions:', this.notAttemptedQuestions);
+
+  // console.log('not attempted questions --',this.notAttemptedQuestions);
 }
 
 findVisitedNotAnsweredQuestions() {
@@ -196,23 +197,6 @@ findVisitedNotAnsweredQuestions() {
     // console.log('question and answer', this.answeredQuestions);
   }
   
-
-  calculateScore() {
-    let score = 0;
-    this.answeredQuestions.forEach((answer) => {
-      const question = this.questions.find(
-        (q: any) => q.id === answer.questionId
-      );
-      if (
-        question &&
-        question.correctAnswer === question.options.indexOf(answer.answer)
-      ) {
-        score++;
-      }
-    });
-    console.log('Score:', score);
-    // Additional logic to display the score or handle it further
-  }
 
   urls = [];
   showLoader = {
@@ -293,4 +277,28 @@ findVisitedNotAnsweredQuestions() {
       return 'btn-not-visited';
     }
   }
+  
+  completeTest() {
+  
+      document.getElementById("dimissModal")?.click();
+      let score = 0;
+      this.answeredQuestions.forEach((answer) => {
+        const question = this.questions.find(
+          (q: any) => q.id === answer.questionId
+        );
+        if (
+          question &&
+          question.correctAnswer === question.options.indexOf(answer.answer)
+        ) {
+          score++;
+        }
+      });
+      console.log('Score:', score);
+        //save the notAttemptedQuestions into service
+      this._tryReportService.skippedQuestion(this.notAttemptedQuestions);
+      this._tryReportService.getQuestionsLength(this.questions);
+      this._router.navigate([`report/:${score}`]);
+
+  }
+
 }

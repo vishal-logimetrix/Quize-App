@@ -10,6 +10,8 @@ import { ChapterComponent } from './chapter/chapter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../app-routing.module';
 import { StartExamComponent } from './start-exam/start-exam.component';
+import { ReportComponent } from './report/report.component';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 
 // Define routes for the Exam Module
@@ -20,6 +22,7 @@ const routes: Routes = [
     { path: 'exam-overview', component: ExamOverviewComponent},
     { path: 'chapters', component: ChapterComponent},
     { path: 'start-Exam', component: StartExamComponent},
+    { path: 'report/:score', component: ReportComponent},
   ]
 }, 
   ]
@@ -30,6 +33,7 @@ const routes: Routes = [
    ExamOverviewComponent,
    ChapterComponent,
    StartExamComponent,
+   ReportComponent,
 
   ],
   imports: [
@@ -37,7 +41,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-    AppRoutingModule
+    AppRoutingModule,
+    HighchartsChartModule
   
   ],
 })
