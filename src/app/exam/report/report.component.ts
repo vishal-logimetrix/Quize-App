@@ -95,8 +95,8 @@ export class ReportComponent implements OnInit {
         }
       },
       colors: [
-        correctScore >= 0 && correctScore < 10 ? '#1FD115' : '#808080', // Green for correct
-        correctScore >= 0 && correctScore < 10 ? '#FF1900' : '#808080' // Red for incorrect
+        correctScore > 0 ? '#1FD115' : '#808080', // Green for correct
+        correctScore < 10 ? '#FF1900' : '#808080' // Red for incorrect
     ],
     series:  [{
       innerSize: '80%',
