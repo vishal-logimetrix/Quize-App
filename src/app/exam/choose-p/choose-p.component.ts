@@ -1,11 +1,21 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import * as AOS from 'aos';
 @Component({
   selector: 'app-choose-p',
   templateUrl: './choose-p.component.html',
   styleUrls: ['./choose-p.component.css']
 })
-export class ChoosePComponent {
+export class ChoosePComponent implements OnInit {
+
+  constructor(){}
+  ngOnInit(): void {
+
+  }
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      AOS.init();
+    }, 400); // Adjust the delay time as needed
+  }
 
   generateMockPaper(){
     
