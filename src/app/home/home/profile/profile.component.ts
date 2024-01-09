@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Observable, Subscription } from 'rxjs';
+import * as AOS from 'aos'
 
 @Component({
   selector: 'app-profile',
@@ -85,6 +86,14 @@ export class ProfileComponent implements OnInit {
 this.profileForm.get('phone')?.disable();
 this.profileForm.get('email')?.disable();
   }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      AOS.init();
+    }, 300); // Adjust the delay time as needed
+  }
+
+  
   changeUserProfile(data:any): void {
 
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import * as AOS from 'aos'
 @Component({
     selector: 'app-contact-us',
   templateUrl: './contact-us.component.html',
@@ -14,5 +14,11 @@ export class ContactUsComponent implements OnInit{
   ngOnInit(): void {
 
 }
+ngAfterViewInit(): void {
+  setTimeout(() => {
+    AOS.init();
+  }, 300); // Adjust the delay time as needed
+}
+
 
 }
