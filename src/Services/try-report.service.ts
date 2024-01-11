@@ -15,7 +15,7 @@ export class TryReportService {
   }
   getQuestionsLength(length:any){
     this.QuestionsLength = length;
-    console.log('get the length of questions--',this.QuestionsLength);
+    // console.log('get the length of questions--',this.QuestionsLength);
   }
   skippedQuestion(question:any){
     this.skippedQuestions = question;

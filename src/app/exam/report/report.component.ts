@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as Highcharts from 'highcharts';
 import { TryReportService } from 'src/Services/try-report.service';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-report',
@@ -231,6 +233,23 @@ initGraphc() {
   }],
   
   };
+}
+
+generatePDF() {
+  const reportElement = document.getElementById('printinvoice')!; // Get the HTML element to convert
+  setTimeout(() => {
+    html2canvas(reportElement, { scale: 2 }).then((canvas) => {
+  html2canvas(reportElement, { scale: 2 }).then((canvas) => {
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF();
+    const imgWidth = pdf.internal.pageSize.getWidth();
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+    pdf.save('result-Report.pdf');
+  });
+});
+}, 800);
 }
 
 }

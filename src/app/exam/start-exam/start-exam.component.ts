@@ -177,7 +177,7 @@ findVisitedNotAnsweredQuestions() {
     return isVisited && !isAnswered;
   });
 
-  console.log('Visited but not Answered Questions:', this.visitedNotAnsweredQuestions);
+  // console.log('Visited but not Answered Questions:', this.visitedNotAnsweredQuestions);
 }
   selectMCQ(event: any, optionIndex: any) {
     const selectedAnswer = this.questions[this.currentQuestion].options[optionIndex];
@@ -256,8 +256,8 @@ findVisitedNotAnsweredQuestions() {
   }
   jumpToQuestion(questionIndex: any) {
     this.currentQuestion = questionIndex;
-    this.showQuestion();
-    this.fetchQuestionDetails(this.questionIds[questionIndex]);
+    // this.showQuestion();
+    // this.fetchQuestionDetails(this.questionIds[questionIndex]);
   }
 
   /**
@@ -300,5 +300,6 @@ findVisitedNotAnsweredQuestions() {
       this._router.navigate([`report/:${score}`]);
 
   }
+  
 
 }

@@ -108,7 +108,7 @@
                                         </div>
                                         <div>
                                             <a href="javascript:void(0)" class="ml-4" (click)="nextQuestion()"
-                                                [ngClass]="{'no-question': currentQuestion === totalQuestions-1 }">
+                                                [ngClass]="{'no-question': currentQuestion === questions.length-1 }">
                                                 Next <span><i class="fa fa-angle-double-right"
                                                         aria-hidden="true"></i></span>
                                             </a>
@@ -138,8 +138,8 @@
                                         <i class="fa fa-check" aria-hidden="true"></i>
                                     </span>
                                 </button> -->
-                                <div class="circleSection">
-                                    <div class="circle">{{i + 1}}</div>
+                                <div class="circleSection" (click)="jumpToQuestion(i)">
+                                    <div class="circle" [ngClass]="{currentClass: i === currentQuestion}">{{i + 1}}</div>
                                 </div>
                             </div>
                         </div>

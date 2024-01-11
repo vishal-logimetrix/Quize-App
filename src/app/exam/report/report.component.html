@@ -2,7 +2,7 @@
     <div class="container practiceReport" id="printinvoice">
         <div class="row reportFirstRow">
           <div class="backToChapter">
-            <a class="btn" target="_blank" routerLink="/report" [queryParams]="{download: 'true'}" ><span><i class="fas fa-arrow-down"></i></span> Download Report</a>&nbsp;
+            <a class="btn" target="_blank" (click)="generatePDF()"  ><span><i class="fas fa-arrow-down"></i></span> Download Report</a>&nbsp;
           </div>
           <div class="practiceAgain">
             <button *ngIf="paperDetails" class="btn" (click)="submitFilterForm()">Practice again <span><i class="fas fa-redo"></i></span></button>
