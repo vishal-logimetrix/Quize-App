@@ -1,169 +1,168 @@
-
- .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh; /* Set height to the full viewport height */
-    overflow: hidden; /* Hide overflow on the main container */
-  }
-
-  .row {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px; /* Adjust top margin as needed */
-    overflow-y: auto; /* Enable vertical scrolling for the row */
-    max-height: calc(100vh - 100px); /* Set maximum height for the scrollable area */
-    padding: 0 20px; /* Add padding as necessary */
-    overflow-y: scroll; /* Always show scrollbar */
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
-    -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
-  }
-
-  .row::-webkit-scrollbar {
-    display: none; /* Hide scrollbar for Chrome, Safari, Opera */
-  }
-  
-.row{
-    align-items: center;
-    margin-top: 100px;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh; /* Set height to the full viewport height */
+  overflow: hidden; /* Hide overflow on the main container */
 }
 
-.login-box{
-    max-width: 50% !important;
-    justify-content: center;
-    border: 1px solid green !important;
-    background-color: rgb(234 247 243) !important; 
-    padding-top: 30px;
-    padding-bottom: 50px;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
-    
-}
-#login-box{
-    padding-top: 0px; 
-    padding-bottom: 0px; 
-    margin-bottom: 10px; 
-    padding-top: -10px;
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Adjust top margin as needed */
+  overflow-y: auto; /* Enable vertical scrolling for the row */
+  max-height: calc(
+    100vh - 100px
+  ); /* Set maximum height for the scrollable area */
+  padding: 0 20px; /* Add padding as necessary */
+  overflow-y: scroll; /* Always show scrollbar */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
 }
 
-.form-group{
-    width: 50%;
-    margin-left: 25%;
+.row::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari, Opera */
 }
 
-.login-title, .loginbttm{
-    text-align: center;
+.row {
+  align-items: center;
+  margin-top: 100px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
-.msgLink{
-    text-align: center;
+
+.login-box {
+  max-width: 50% !important;
+  justify-content: center;
+  border: 1px solid green !important;
+  background-color: rgb(234 247 243) !important;
+  padding-top: 30px;
+  padding-bottom: 50px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
 }
-.msgLink:hover{
-    cursor: pointer;
-    color: blue !important;
-    border-bottom: 1px solid;
+#login-box {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 10px;
+  padding-top: -10px;
 }
-.success-img{
-    text-align: center;
+
+.form-group {
+  width: 50%;
+  margin-left: 25%;
+}
+
+.login-title,
+.loginbttm {
+  text-align: center;
+}
+.msgLink {
+  text-align: center;
+}
+.msgLink:hover {
+  cursor: pointer;
+  color: blue !important;
+  border-bottom: 1px solid;
+}
+.success-img {
+  text-align: center;
 }
 :host {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 14px;
-    color: #333;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  svg#clouds {
-    position: fixed;
-    bottom: -160px;
-    left: -230px;
-    z-index: -10;
-    width: 1920px;
-  }
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+svg#clouds {
+  position: fixed;
+  bottom: -160px;
+  left: -230px;
+  z-index: -10;
+  width: 1920px;
+}
 
-  .registerSuccessMsg{
-    text-align: center;
-  }
-#registerMsgBox{
-    text-align: center;
-  }
+.registerSuccessMsg {
+  text-align: center;
+}
+#registerMsgBox {
+  text-align: center;
+}
 
-  @media screen and (max-width: 767px) {
-    .card-container > *:not(.circle-link) ,
-    .terminal {
-      width: 100%;
-    }
-
-    .card:not(.highlight-card) {
-      height: 16px;
-      margin: 8px 0;
-    }
-
-    .card.highlight-card span {
-      margin-left: 72px;
-    }
-
-    svg#rocket-smoke {
-      right: 120px;
-      transform: rotate(-5deg);
-    }
-  }
-
-  #login-btn{
-    position: relative;
-    padding: 1rem 2rem 0.5rem 2.5rem;
-    color: #000000;
-    border: 3px solid #776e62;
-    -webkit-transition: padding 0.3s ease-in-out;
-    transition: padding 0.3s ease-in-out;
-  }
-  #login-btn:before {
-    content: "";
-    position: absolute;
-    top: 0.5rem;
-    left: 0.5rem;
-    z-index: -1;
-    height: 100%;
+@media screen and (max-width: 767px) {
+  .card-container > *:not(.circle-link),
+  .terminal {
     width: 100%;
-    background-color: #ffffff;
-    border-right: 3px solid #ffffff;
-    border-bottom: 3px solid #ffffff;
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-  }
-  #login-btn:hover {
-    padding: 0.75rem 2.25rem;
-  }
-  
-  #login-btn:hover:before {
-    top: 0;
-    left: 0;
   }
 
-  @media screen and (max-width: 575px) {
-    svg#rocket-smoke {
-      display: none;
-      visibility: hidden;
-    }
+  .card:not(.highlight-card) {
+    height: 16px;
+    margin: 8px 0;
   }
 
-  
+  .card.highlight-card span {
+    margin-left: 72px;
+  }
 
+  svg#rocket-smoke {
+    right: 120px;
+    transform: rotate(-5deg);
+  }
+}
+
+#login-btn {
+  position: relative;
+  padding: 1rem 2rem 0.5rem 2.5rem;
+  color: #000000;
+  border: 3px solid #776e62;
+  -webkit-transition: padding 0.3s ease-in-out;
+  transition: padding 0.3s ease-in-out;
+}
+#login-btn:before {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  background-color: #ffffff;
+  border-right: 3px solid #ffffff;
+  border-bottom: 3px solid #ffffff;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+#login-btn:hover {
+  padding: 0.75rem 2.25rem;
+}
+
+#login-btn:hover:before {
+  top: 0;
+  left: 0;
+}
+
+@media screen and (max-width: 575px) {
+  svg#rocket-smoke {
+    display: none;
+    visibility: hidden;
+  }
+}
 
 /* validations section */
 
-input.ng-invalid.ng-touched{
-    border: 2px solid;
-    border-color: red !important;
+input.ng-invalid.ng-touched {
+  border: 2px solid;
+  border-color: red !important;
 }
-.successImg{
+.successImg {
   width: 60% !important;
   height: 60% !important;
 }
