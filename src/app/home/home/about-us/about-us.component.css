@@ -15,7 +15,7 @@
 }
 
 .aboutUS .aboutUsSection {
-  padding: 50px 70px 50px 70px;
+  /* padding: 0px 0px 0px 70px; */
   min-height: calc(100vh - 85px);
   margin-top: 85px;
 }
