@@ -12,6 +12,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { StartExamComponent } from './start-exam/start-exam.component';
 import { ReportComponent } from './report/report.component';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 
 
 // Define routes for the Exam Module
@@ -25,6 +26,7 @@ const routes: Routes = [
     { path: 'report/:score', component: ReportComponent},
   ]
 }, 
+{ path: '**', component: PageNotFoundComponent },
   ]
 @NgModule({
   declarations: [

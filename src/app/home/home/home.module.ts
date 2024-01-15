@@ -23,7 +23,10 @@ const routes: Routes = [
     { path: 'profile', component: ProfileComponent},
     { path: 'contact-Us', component: ContactUsComponent},
     { path: 'about-Us', component: AboutUsComponent},
-  ]}
+  ]},
+  
+    
+  
 ];
 
 @NgModule({

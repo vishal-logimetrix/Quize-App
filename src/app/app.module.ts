@@ -9,12 +9,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeModule } from './home/home/home.module';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { ExamModule } from './exam/exam.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    PageNotFoundComponent,
     
 
   ],

@@ -1,13 +1,12 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;300;400;600;700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@200;300;400;600;700&display=swap');
 
-.disply-container{
-  /* border: 1px solid black; */
-  /* padding-left: 15%;
-   */
-}
+/* .disply-container{
+  border: 1px solid black;
+  padding-left: 15%;
+} */
 .firstRow{
     margin-top: 85px;
-    width: 80%;
+    /* width: 80%; */
     /* margin-left: 15%; */
 }
 .firstRow.inactive{
@@ -20,9 +19,9 @@ margin-left: -20% !important;
 .btnLogin {
     margin-top: 78px;
   }
-  .contentDiv {
-    /* padding: 50px 70px; */
-}
+  /* .contentDiv {
+    padding: 50px 70px;
+} */
 .titleOne {
     color: #ff4935;
     font-family: "jaldi", Sans-serif;

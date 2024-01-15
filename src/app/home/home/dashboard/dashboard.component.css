@@ -24,6 +24,7 @@ a:focus{
     transition: all 0.3s;
     margin-top: 35px;
     z-index: 999;
+    height: 100%;
 }
 #sidebar.active{
 	margin-left: -250px;
