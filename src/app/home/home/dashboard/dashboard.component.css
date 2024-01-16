@@ -1,5 +1,4 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-
 a,
 a:hover,
 a:focus{
@@ -7,13 +6,11 @@ a:focus{
 	text-decoration: none;
 	transition: all 0.3s;
 }
-
 .wrapper {
     display: flex;
     width: 100%;
     align-items: stretch;
 }
-
 #sidebar {
     min-width: 250px;
     max-width: 250px;
@@ -29,8 +26,6 @@ a:focus{
 #sidebar.active{
 	margin-left: -250px;
 }
-
-
 #sidebar .sidebar-header{
 	padding: 20px;
 	background: #6d7fcc;
@@ -39,13 +34,11 @@ a:focus{
 	padding: 20px 0px;
 	border-bottom: 1px solid #47748b;
 }
-
 #sidebar ul p{
 	padding: 10px;
 	font-size: 1.1em;
 	display: block;
 }
-
 #sidebar ul li a{
 	padding: 10px;
 	font-size: 1.1em;
@@ -55,7 +48,6 @@ a:focus{
     color: #7386D5;
     background: #fff;
 }
-
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
@@ -71,25 +63,18 @@ a[data-toggle="collapse"] {
     right: 20px;
     transform: translateY(-50%);
 }
-
-/* .sidebar-open .content {
-    margin-left: 250px; 
-} */
 .sidebar-header img{
     height: 100px;
     width: 170px;
 }
-
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
     background: #6d7fcc;
 }
-
 ul.CTAs {
     padding: 20px;
 }
-
 ul.CTAs a {
     text-align: center;
     font-size: 0.9em !important;
@@ -106,14 +91,12 @@ a.article:hover {
     background: #6d7fcc !important;
     color: #fff !important;
 }
-
 .content {
     width: 100%;
     min-height: 100vh;
     transition: all 0.3s;
 
 }
-
 .active-link{
     height: 30px;
     width: 100%;
@@ -132,7 +115,6 @@ a.article:hover {
     background-color: #f8f9fa;
     border-bottom: 2px solid gray;
 }
-
 @media(max-width:768px){
 	#sidebar{margin-left: -250px;}
 	#sidebar.active{
@@ -145,10 +127,6 @@ a.article:hover {
         padding-left: 30px !important;
     }
 }
-
-
-
-
 .firstRowLine {
     display: flex;
     flex-wrap: wrap;
@@ -157,7 +135,6 @@ a.article:hover {
     /* border: 1px solid black; */
     width: 100%;
 }
-
 .f_row {
     height: 200px;
     width: 280px;
@@ -170,31 +147,40 @@ a.article:hover {
 .f_row2 {
     height: 200px;
     width: 280px;
-    /* border: 1px solid black; */
+    border: 1px solid black;
     /* padding: 10px; */
     margin: 10px;
     border-radius: 5%;
     background-color: white;
 }
-
 .f_row h4{
     height: 50px;
 }
-
-
-
-
 .img{
     height: 70%;
     width: 100%;
+    border-top-right-radius: 5%;
+    border-top-left-radius: 5%;
 }
-
-
-
-
-
-
-
+.imgRow1{
+  height: 60%;
+  width: 50%; 
+  aspect-ratio: 3/3;
+  object-fit: contain;
+  /* mix-blend-mode: color-burn; */
+}
+.fRowContainer{
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-content: center;
+  padding: 5%;
+}
+.box1{
+  border: 2px solid gray !important;
+  padding-top: 20px !important;
+  padding-bottom: 20px;
+}
 .lds-default {
     display: inline-block;
     position: relative;
