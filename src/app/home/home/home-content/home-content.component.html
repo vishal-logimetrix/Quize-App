@@ -1,4 +1,4 @@
-<div class="disply-container">
+<div class="disply-container" *ngIf="noripple">
 <div class="firstRow" id="about">
     <div class="contentDiv" data-aos="fade-right" data-aos-duration="2000">
         <div class="row">
@@ -717,4 +717,8 @@
     </div>
 </div>
 </div>
-
+<div *ngIf="ripple" class="spinnerContainer">
+    <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    <br>
+    <h2>Preparing Exam Screen.....</h2>
+    </div>

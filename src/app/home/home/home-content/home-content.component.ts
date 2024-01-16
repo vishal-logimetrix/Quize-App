@@ -7,10 +7,15 @@ import * as AOS from 'aos';
 })
 export class HomeContentComponent implements OnInit {
 
+  ripple:boolean = true;
+  noripple:boolean = false;
   constructor(){}
 
   ngOnInit(): void {
-   
+   setTimeout(() => {
+    this.ripple = !this.ripple;
+    this.noripple = !this.noripple;
+   }, 2000);
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
