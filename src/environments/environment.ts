@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
- apiUrl:""
+ apiUrl:"vishal/lengare/environment"
 
 };
 

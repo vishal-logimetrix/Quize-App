@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { LoginService } from 'src/Services/login.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit{
-
   isLogin: boolean = true;
   isRegister: boolean = false;
   registerSuccessMsg:boolean= false;
   registerForm!: FormGroup;
-
-  constructor(private _router: Router, private formBuilder: FormBuilder){}
+  url:string = '';
+  constructor(private _router: Router, private formBuilder: FormBuilder, private _loginService: LoginService){}
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -26,7 +25,8 @@ export class LoginComponent implements OnInit{
     }, {
       validators: this.passwordMatchValidator.bind(this)
     });
-    
+    this.url = this._loginService.baseUrl
+    console.log(this.url,'getting api url')
   }
   passwordMatchValidator(formGroup: FormGroup) {
     const password = formGroup.get('password')?.value;
@@ -47,7 +47,6 @@ export class LoginComponent implements OnInit{
     this.isRegister = false;
     this.registerSuccessMsg = false;
   }
-
   RegisterStudent(){
     if(this.registerForm.valid){
       console.log('registerStudent form values updated', this.registerForm.value);
@@ -55,7 +54,6 @@ export class LoginComponent implements OnInit{
     this.isLogin = false;
     this.isRegister = !this.isRegister;
     }
-  
   }
   loginUser(data:any){
     console.log('login data:', data);
