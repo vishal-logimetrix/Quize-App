@@ -4,15 +4,15 @@
           <div class="backToChapter">
             <a class="btn" target="_blank" (click)="generatePDF()"  ><span><i class="fas fa-arrow-down"></i></span> Download Report</a>&nbsp;
           </div>
-          <div class="practiceAgain">
+          <!-- <div class="practiceAgain">
             <button *ngIf="paperDetails" class="btn" (click)="submitFilterForm()">Practice again <span><i class="fas fa-redo"></i></span></button>
-          </div>
+          </div> -->
         </div>
         <h2 class="practiceReportHeading">Practice Report Card</h2>
-        <div class="totalUser">
-          <div><button class="btn" ><span><i class="fas fa-angle-double-left mr-1"></i></span>CHAPTER</button></div>
+        <!-- <div class="totalUser">
+          <div><button class="btn" ><span><i class="fas fa-angle-double-left mr-1" (click)="getPreviousUrl()"></i></span>CHAPTER</button></div>
           <div><p class="practiceReportSubHeading">chapter name</p></div>
-      </div>
+      </div> -->
       <div><hr></div>
         <div class="row">
             <div class="col-md-12">
@@ -27,18 +27,18 @@
                  </div>
             </div>
             <div class="col-md-12">
-              <div class="d-flex justify-content-center"><h2><b>{{UserScore}}/{{questionsLength.length}}</b></h2></div><br>
+              <div class="d-flex justify-content-center"><h2><b>{{totalMarks}}/{{totalQuestion}}</b></h2></div><br>
                 <div class="d-flex justify-content-center">
                 <h2 class="overallAccuracy">Correct</h2>
                 </div>
             </div>      
         </div>
         <div class="row">
-            <div class="col-xl-4 col-lg-6 col-md-6">
+            <!-- <div class="col-xl-4 col-lg-6 col-md-6">
                 <div class="card topCard">
                     <div class="row">
                         <div class="col-md-6">
-                            <div><h5>0/10</h5></div>
+                            <div><h5>{{unattempts - totalQuestion}}/{{totalQuestion}}</h5></div>
                             <div><h6>Attempted</h6></div>
                         </div>
                         <div class="col-md-6" >
@@ -53,12 +53,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-4 col-lg-6 col-md-6">
+            </div> -->
+            <div class="col-xl-6 col-lg-6 col-md-6">
               <div class="card topCard">
                   <div class="row">
                       <div class="col-md-6">
-                          <div><h5>{{skippedQuestions.length}}/{{questionsLength.length}}</h5></div>
+                          <div><h5>{{unattempts}}/{{totalQuestion}}</h5></div>
                           <div><h6>Skipped</h6></div>
                       </div>
                       <div class="col-md-6">
@@ -74,11 +74,11 @@
                   </div>
               </div>
           </div>
-          <div class="col-xl-4 col-lg-6 col-md-6">
+          <div class="col-xl-6 col-lg-6 col-md-6">
               <div class="card topCard">
                   <div class="row">
                       <div class="col-md-6">
-                          <div><h5>0/{{questionsLength.length}}</h5></div>
+                          <div><h5>{{wrongAnswer}}/{{totalQuestion}}</h5></div>
                           <div><h6>Incorrect</h6></div>
                       </div>
                       <div class="col-md-6">

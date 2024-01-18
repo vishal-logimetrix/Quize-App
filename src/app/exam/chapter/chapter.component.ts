@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from 'src/Services/login.service';
 
 @Component({
   selector: 'app-chapter',
@@ -8,75 +9,52 @@ import { Router } from '@angular/router';
 })
 export class ChapterComponent implements OnInit {
 
-  subjects: any[] =  [
-        {
-            "id": 5407,
-            "title": "MATHAMATICS",
-            "total_questions": 0,
-            "attempted": 10,
-            "percentage": 50,
-            "videos_available": true
-        },
-        {
-            "id": 5408,
-            "title": "E.V.S",
-            "total_questions": 0,
-            "attempted": 6,
-            "percentage": 100,
-            "videos_available": true
-        },
-        
-];
-
-
-chapters:any[] = [
-  {
-      "id": 5407,
-      "title": "Numbers",
-      "total_questions": 0,
-      "attempted": 10,
-      "percentage": 50,
-      "videos_available": true
-  },
-  {
-      "id": 5408,
-      "title": "Money",
-      "total_questions": 0,
-      "attempted": 6,
-      "percentage": 100,
-      "videos_available": true
-  },
-  {
-      "id": 5409,
-      "title": "Measurement",
-      "total_questions": 10,
-      "attempted": 8,
-      "percentage": 30,
-      "videos_available": true
-  },
-  {
-      "id": 5429,
-      "title": "Data Handling",
-      "total_questions": null,
-      "attempted": null,
-      "percentage": null,
-      "videos_available": true
-  },
-  {
-      "id": 5439,
-      "title": "Patterns",
-      "total_questions": null,
-      "attempted": null,
-      "percentage": null,
-      "videos_available": true
-  }
-]
+// chapters:any[] = [
+//   {
+//       "id": 5407,
+//       "title": "Numbers",
+//       "total_questions": 0,
+//       "attempted": 10,
+//       "percentage": 50,
+//       "videos_available": true
+//   },
+//   {
+//       "id": 5408,
+//       "title": "Money",
+//       "total_questions": 0,
+//       "attempted": 6,
+//       "percentage": 100,
+//       "videos_available": true
+//   },
+//   {
+//       "id": 5409,
+//       "title": "Measurement",
+//       "total_questions": 10,
+//       "attempted": 8,
+//       "percentage": 30,
+//       "videos_available": true
+//   },
+//   {
+//       "id": 5429,
+//       "title": "Data Handling",
+//       "total_questions": null,
+//       "attempted": null,
+//       "percentage": null,
+//       "videos_available": true
+//   },
+//   {
+//       "id": 5439,
+//       "title": "Patterns",
+//       "total_questions": null,
+//       "attempted": null,
+//       "percentage": null,
+//       "videos_available": true
+//   }
+// ]
 
 currentQuestionIndex: number = 0;
   selectedOption: number | null = null;
   showResult: boolean = false;
-
-
 
 Question = [
   {
@@ -125,56 +103,55 @@ Question = [
 
 
 @ViewChild('closeModald') closeModald!: ElementRef;
-// value!:number;
-// ckeConfig: any;
-// mycontent!: string;
 log: string = '';
 chooseSubjectsFlag: boolean = true;
 examId!: number;
-// pathQuestions: any;
 examDetails: any;
-// domainId: any;
 selectedSubjectId!: string;
-// selectedChapters = [];
-// selectedSubjects = [];
-// totalQuestions: number = 10;
-// totalTime: number = 0;
-// questionTypes = [];
 difficulty: number = 5;
-// fetchedQuestions!:any;
 paperType = 'practice';
-// totalMarks!:any;
-// avgtime!:any;
 totalusers!:any;
-// linkedTypes!:any;
-// showTime: boolean = true;
-// subjectChapters!:any;
-// errorMsg!:any;
 selectedChapter!:any;
-// submitStatus: boolean = false;
 abcd:boolean = true;
 efgh:boolean = false;
-// mockParameterFound: boolean = false;
 selectedChapterid!:any;
-// quesTypes = [];
 showSubjective: boolean = false;
-// includeSubjectiveflag: boolean = true;
-// excludeSubjectiveflag: boolean = false;
 ifanydifficulty: boolean = false;
 spinner:boolean = true;
 
 @ViewChild("myckeditor", {static: false}) ckeditor: any;
 @ViewChild('widgetsContent') widgetsContent!: ElementRef;
 
-  constructor(private _router: Router){    
+id:any;
+name:any;
+subject_id:any;
+all_parts: any[] = [];
+
+chaptersData: any[] = [];
+
+
+subjectPartsVailable:boolean = false;
+
+  constructor(private _router: Router, private _loginService: LoginService, private _route: ActivatedRoute){    
+   
   }
   ngOnInit(): void {
+    this.id = localStorage.getItem('id');
+    this.name = this._route.snapshot.paramMap.get('s_name');
+    this.subject_id = this._route.snapshot.paramMap.get('id');
+    this._loginService.getSubjectParts(this.subject_id,this.name).subscribe((subjectPart:any)=>{
+      this.all_parts = subjectPart.all_parts;
+    })
+  }
+  getPartsID(id:number, name:any){
+    this._loginService.getChapters(id, name).subscribe((chapters:any) =>{
+      this.chaptersData = chapters.all_chapters;
+      if(this.chaptersData){
+        this.subjectPartsVailable = true;
+      }
+    });
+  }
 
-  }
-  getChapters(id:number){
-    console.log('getChapters ID',id)
-  }
-  
   slideRight(){
     this.widgetsContent.nativeElement.scrollLeft += 150;
   }
@@ -183,6 +160,7 @@ spinner:boolean = true;
   }
   saveChapterId(id:any){
     this.selectedChapterid = id;
+    console.log('selected chapter ID',this.selectedChapterid);
     this.selectDifficultyLevel(2, 5);
     // this._router.navigate(['/start-Exam']);
   }
@@ -218,7 +196,7 @@ spinner:boolean = true;
 
   submitFilterForm(){
     // this.closeModald.nativeElement.hide();
-    this._router.navigate([`/start-Exam`]);
+    this._router.navigate([`/start-Exam/${this.name}/${this.selectedChapterid}`]);
   }
 
 

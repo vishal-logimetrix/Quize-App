@@ -1,7 +1,8 @@
 import { Component, ElementRef, HostListener, OnInit, QueryList, Renderer2, ViewChild, ViewChildren,} from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { LoginService } from 'src/Services/login.service';
 import { TryReportService } from 'src/Services/try-report.service';
 
 @Component({
@@ -12,76 +13,16 @@ import { TryReportService } from 'src/Services/try-report.service';
 export class StartExamComponent implements OnInit {
   selectedOptionIndex: number = -1;
 
-  questions: any = [
-    {
-      id: 1,
-      question: 'What is the capital of France?',
-      options: ['London', 'Paris', 'Berlin', 'Madrid'],
-      correctAnswer: 1, // Index 1 corresponds to "Paris"
-    },
-    {
-      id: 2,
-      question: 'Which planet is known as the Red Planet?',
-      options: ['Jupiter', 'Venus', 'Mars', 'Saturn'],
-      correctAnswer: 2, // Index 2 corresponds to "Mars"
-    },
-    // Add more questions similarly
-    {
-      id: 3,
-      question: 'Who painted the Mona Lisa?',
-      options: [
-        'Leonardo da Vinci',
-        'Pablo Picasso',
-        'Vincent van Gogh',
-        'Michelangelo',
-      ],
-      correctAnswer: 0, // Index 0 corresponds to "Leonardo da Vinci"
-    },
-    {
-      id: 4,
-      question: 'What is the largest mammal in the world?',
-      options: ['Elephant', 'Blue Whale', 'Giraffe', 'Hippopotamus'],
-      correctAnswer: 1, // Index 1 corresponds to "Blue Whale"
-    },
-    {
-      id: 5,
-      question: 'What is the capital of Maharastra?',
-      options: ['Pune', 'Mumbai', 'thane', 'nagpur'],
-      correctAnswer: 1, // Index 1 corresponds to "Blue Whale"
-    },
-    {
-      id: 6,
-      question: 'What is the capital of India?',
-      options: ['Pune', 'mumbai', 'Delhi', 'Banglore'],
-      correctAnswer: 2, // Index 1 corresponds to "Blue Whale"
-    },
-    {
-      id: 7,
-      question: 'Who is PM of India?',
-      options: [
-        'Yogi Adityanath',
-        'Narendra Modi',
-        'Nitin Gadakari',
-        'Devendra Fadnvis',
-      ],
-      correctAnswer: 1, // Index 1 corresponds to "Blue Whale"
-    },
-    {
-      id: 8,
-      question: 'Who won  the ODI worldcup in 2023?',
-      options: ['IND', 'PAK', 'ENG', 'AUS'],
-      correctAnswer: 3, // Index 1 corresponds to "Blue Whale"
-    },
-    // Add more questions here...
-  ];
-
+  
+  questions:any[] = [];
   selectedOptions: number[] = [];
   questionTexts: any;
   currentQuestionIndex: number = 0;
 
+  userAnswers: any[] = [];
+  UserResultData:any[]=[];
+  constructor(private renderer: Renderer2, private _router: Router, private _tryReportService: TryReportService, private _loginService:LoginService, private _route: ActivatedRoute) {
 
-  constructor(private renderer: Renderer2, private _router: Router, private _tryReportService: TryReportService) {
-    this._tryReportService.getQuestionsLength(this.questions);
   }
 
 
@@ -92,7 +33,11 @@ export class StartExamComponent implements OnInit {
   issueType = 'Question Unclear';
   hiddenDiv: boolean = false;
 
+  subjectName:any;
+  chapter_id:any;
   // answeredQuestions: { questionId: string; answer: string }[] = [];
+
+  
   answeredQuestions: { questionId: string; answer: string; selectedOptionId?: number }[] = [];
 
   ngOnInit() {
@@ -101,21 +46,40 @@ export class StartExamComponent implements OnInit {
   this.findNotAttemptedQuestions();
   this.findAnsweredQuestionValues();
   this.findVisitedNotAnsweredQuestions();
+  this.subjectName = this._route.snapshot.paramMap.get('s_name');
+  this.chapter_id = this._route.snapshot.paramMap.get('chapter_id');
+
+  // this._loginService.getQuestions(this.subjectName, this.chapter_id).subscribe((questions:any)=>{
+  //   this.questions = questions.all_question;
+  //   console.log('getting the questions--',this.questions);
+  //   console.log('checking lenght of questions', this.questions.length)
+  // })
+  this._loginService.getQuestions(this.subjectName, this.chapter_id).subscribe((apiResponse: any) => {
+    if (apiResponse.status && apiResponse.all_question && Array.isArray(apiResponse.all_question)) {
+      this.questions = apiResponse.all_question.map((apiQuestion:any) => {
+        return {
+          id: apiQuestion.id,
+          question: apiQuestion.question,
+          options: [
+            apiQuestion.optiona,
+            apiQuestion.optionb,
+            apiQuestion.optionc,
+            apiQuestion.optiond,
+          ],
+          // correctAnswer: // Your logic to map the correct answer based on the API response,
+        };
+      });
+    } else {
+      console.error('API response is not as expected:', apiResponse);
+    }
+  }, (error) => {
+  }, () => {
+  });
+  
   }
 
   closeSolutionFunction() {
     this.hiddenDiv = false;
-  }
-  selectErrorType(i: number, type: any) {
-    this.issueType = type;
-    let id = '';
-    for (let i = 1; i < 6; i++) {
-      id = 'regi' + i;
-      document.getElementById(id)?.classList.remove('selected');
-    }
-    id = '';
-    id = 'regi' + i;
-    document.getElementById(id)?.classList.add('selected');
   }
   
   // Question Count
@@ -133,10 +97,10 @@ export class StartExamComponent implements OnInit {
   notAttemptedQuestions:any;
   answeredQuestionValues:any;
   visitedNotAnsweredQuestions:any;
+
   findCurrentQuestion() {
     const currentQuestion = this.currentQuestion;
     const question = this.questions[currentQuestion];
-    // console.log('Current Question:', question);
   }
   // Find Answered Questions
 findAnsweredQuestions() {
@@ -196,12 +160,12 @@ findVisitedNotAnsweredQuestions() {
     }
     // console.log('question and answer', this.answeredQuestions);
   }
-  
 
   urls = [];
   showLoader = {
     visibility: false,
   };
+
   unmark() {
     for (let i = 0; i < this.bookmarks.length; i++) {
       if (this.questionDetails['id'] == this.bookmarks[i]['question']['id']) {
@@ -223,7 +187,7 @@ findVisitedNotAnsweredQuestions() {
     };
   }
   resetIssue() {
-    this.selectErrorType(1, 'Question Unclear');
+    // this.selectErrorType(1, 'Question Unclear');
   }
   fetchQuestionDetails(id: any) {}
   question_score: any;
@@ -238,9 +202,9 @@ findVisitedNotAnsweredQuestions() {
       (q) => q.questionId === currentQuestionId
     );
     if (attemptedAnswer) {
-      console.log(
-        `Question ID: ${currentQuestionId}, Attempted Answer: ${attemptedAnswer.answer}`
-      );
+      // console.log(
+      //   `Question ID: ${currentQuestionId}, Attempted Answer: ${attemptedAnswer.answer}`
+      // );
     } else {
     }
   this.findCurrentQuestion();
@@ -249,39 +213,37 @@ findVisitedNotAnsweredQuestions() {
   this.findAnsweredQuestionValues();
   this.findVisitedNotAnsweredQuestions();
   }
+
   previousQuestion() {
     if (this.currentQuestion > 0) {
       this.currentQuestion--;
     }
   }
+
   jumpToQuestion(questionIndex: any) {
     this.currentQuestion = questionIndex;
-    // this.showQuestion();
-    // this.fetchQuestionDetails(this.questionIds[questionIndex]);
   }
 
-  /**
-   * Get Question status circle color
-   */
-  getCircleClass(questionIndex: any) {
-    const question = this.testObj['data']['questions'][questionIndex];
-    if (question['review']) {
-      return 'btn-review';
-    } else if (question['sReview']) {
-      return 'sbtn-review';
-    } else if (question['completed'] || question['attempt']) {
-      return 'btn-success';
-    } else if (question['visited']) {
-      return 'btn-danger';
-    } else {
-      return 'btn-not-visited';
-    }
-  }
+  // getCircleClass(questionIndex: any) {
+  //   const question = this.testObj['data']['questions'][questionIndex];
+  //   if (question['review']) {
+  //     return 'btn-review';
+  //   } else if (question['sReview']) {
+  //     return 'sbtn-review';
+  //   } else if (question['completed'] || question['attempt']) {
+  //     return 'btn-success';
+  //   } else if (question['visited']) {
+  //     return 'btn-danger';
+  //   } else {
+  //     return 'btn-not-visited';
+  //   }
+  // }
   
-  completeTest() {
+  /*completeTest() {
   
       document.getElementById("dimissModal")?.click();
       let score = 0;
+      console.log('users entered data=====>>',this.answeredQuestions);
       this.answeredQuestions.forEach((answer) => {
         const question = this.questions.find(
           (q: any) => q.id === answer.questionId
@@ -293,13 +255,99 @@ findVisitedNotAnsweredQuestions() {
           score++;
         }
       });
-      console.log('Score:', score);
+      // console.log('Score:', score);
         //save the notAttemptedQuestions into service
       this._tryReportService.skippedQuestion(this.notAttemptedQuestions);
       this._tryReportService.getQuestionsLength(this.questions);
-      this._router.navigate([`report/:${score}`]);
+      // this._router.navigate([`report/:${score}`]);
 
   }
+  */
+  // completeTest() {
+  //   document.getElementById("dimissModal")?.click();
+  //   let userAnswers: any[] = [];
+  
+  //   this.answeredQuestions.forEach((answer) => {
+  //     userAnswers.push({
+  //       id: answer.questionId,
+  //       selected_answer: answer.answer,
+  //     });
+  //   });
+  
+  //   console.log('Users entered data:', userAnswers);
+  // }
+  
+  /*
+  completeTest() {
+    document.getElementById("dimissModal")?.click();
+    let userAnswers: any[] = [];
+  
+    this.answeredQuestions.forEach((answer) => {
+      const question = this.questions.find((q: any) => q.id === answer.questionId);
+  
+      if (question) {
+        const selectedOption = this.getOptionLetter(answer.selectedOptionId);
+        userAnswers.push({
+          id: answer.questionId,
+          selected_answer: selectedOption,
+        });
+      }
+    });
+  
+    console.log('Users entered data:', userAnswers);
+  
+    // Now `userAnswers` array contains the required format with option letters
+  }
+  
+  getOptionLetter(index: number | undefined): string {
+    const optionLetters = ['a', 'b', 'c', 'd'];
+    return index !== undefined ? optionLetters[index] : '';
+  }
+  */
+  completeTest() {
+    const score: any= 5;
+    document.getElementById("dimissModal")?.click();
+  
+    const selected_by_user: any[] = [];
+  
+    // Create a separate array with information about all questions
+    const allQuestionsInfo = this.questions.map((question) => {
+      const answer = this.answeredQuestions.find((a) => a.questionId === question.id);
+  
+      const selectedOption = answer ? this.getOptionLetter(answer.selectedOptionId) : '';
+  
+      selected_by_user.push({
+        id: question.id,
+        selected_answer: selectedOption,
+      });
+  
+      return {
+        id: question.id,
+        selected_answer: selectedOption,
+      };
+    });
+  
+    //console.log('All questions information:', [...allQuestionsInfo]); // Use the spread operator to create a new array
+    // console.log('User answers:', {selected_by_user});
+
+    this._loginService.getResult({selected_by_user}).subscribe((response:any) =>{
+    console.log('getting result',response.data);
+      this.UserResultData = response.data;
+    this._loginService.resultData = this.UserResultData;
+    this._tryReportService.correctAnswer = response.data.correctAnswer;
+    this._tryReportService.totalMarks = response.data.totalMarks;
+    this._tryReportService.totalQuestions = response.data.totalQuestions;
+    this._tryReportService.unattempts = response.data.unattempts;
+    this._tryReportService.wrongAnswer = response.data.wrongAnswer;
+    this._router.navigate([`/report`]);
+    });
+  }
+  
+  getOptionLetter(index: number | undefined): string {
+    const optionLetters = ['a', 'b', 'c', 'd'];
+    return index !== undefined ? optionLetters[index] : '';
+  }
+  
   
 
 }

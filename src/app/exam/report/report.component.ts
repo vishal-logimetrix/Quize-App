@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import * as Highcharts from 'highcharts';
 import { TryReportService } from 'src/Services/try-report.service';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { LoginService } from 'src/Services/login.service';
 
 @Component({
   selector: 'app-report',
@@ -32,168 +33,154 @@ export class ReportComponent implements OnInit {
   convertedDataAttempt = [];
   convertedDataCorrect = [];
   convertedDataIncorrect = [];
+
+
   UserScore:any;
+  skippedScore:any;
+  wrongScore:any;
+
   percentValue:any;
   skippedQuestions: any[] = [];
   questionsLength:any[] = [];
-  constructor(private _router: Router, private _route : ActivatedRoute, private _tryReport: TryReportService){
+
+  correctAnswer:any = undefined;
+  totalMarks:any = undefined;
+  totalQuestion:any = undefined;
+  unattempts:any = undefined;
+  wrongAnswer:any = undefined;
+
+  previousUrl: string | null = null;
+
+  constructor(private _router: Router, private _route : ActivatedRoute, private _loginService:LoginService, private _tryService: TryReportService){
 
   }
   ngOnInit(): void {
-    this.UserScore = this._route.snapshot.paramMap.get('score');
-    this.UserScore = this.UserScore.split(':')[1]; 
-    // console.log('getting score in report component',this.UserScore)
+    this.correctAnswer = this._tryService.correctAnswer;
+    this.totalMarks =   this._tryService.totalMarks;
+    this.totalQuestion  = this._tryService.totalQuestions; 
+    this.unattempts = this._tryService.unattempts;
+    this.wrongAnswer = this._tryService.wrongAnswer;
 
+     // Set correct values for the charts
+     this.UserScore = this.correctAnswer; // Assuming this is the correct property
+     this.skippedScore = this.unattempts; // Assuming this is the correct property
+     this.wrongScore = this.wrongAnswer; // Assuming this is the correct property
+     this.percentValue = (this.correctAnswer / this.totalQuestion) * 100;
+     this.skippedPerc = ( this.unattempts / this.totalQuestion ) * 100;
+     this.incorrectPerc = (this.wrongAnswer / this.totalQuestion) * 100;
+    
     this.initGraph();
-    this.initGrapha();
+    // this.initGrapha();
     this.initGraphb();
     this.initGraphc();
-    this.getValuesFromService();
-    this.calculatePercent();
+    this._router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.previousUrl = this.getPreviousUrl();
+        console.log('getting previous url',this.previousUrl);
+      }
+    });
+
   }
 
-  getValuesFromService(){
-    this.skippedQuestions = this._tryReport.skippedQuestions;
-    this.questionsLength = this._tryReport.QuestionsLength;
+  getPreviousUrl(): string | null {
+    const nav = this._router.getCurrentNavigation();
+    if (nav && nav.previousNavigation) {
+      return nav.previousNavigation.finalUrl!.toString();
+    }
+    return null;
   }
-  calculatePercent() {
-    const correctAnswers = Number(this.UserScore);
-    const totalQuestions = this.questionsLength.length;
-    this.percentValue = (correctAnswers / totalQuestions) * 100;
-    console.log('Percentage:', this.percentValue + '%');
-  }
-  
+
   onPrint() {
     window.print();
   }
-  submitFilterForm(){
 
-  }
-
-  initGraph() {
-    const correctScore = Number(this.UserScore);
-    this.chartOptions = {   
-       chart: {
-          type: 'pie',
-          backgroundColor : '#F5F4F4'
-       },
-       credits: {
-         enabled: false
-       },
-       tooltip: { enabled: false },
-       title: {
-          text: `${this.percentValue}`,
-          verticalAlign: 'middle',
-          floating: true
-       },
-       
+initGraph() {
+    this.chartOptions = {
+      chart: {
+        type: 'pie',
+        backgroundColor: '#F5F4F4'
+      },
+      credits: {
+        enabled: false
+      },
+      tooltip: { enabled: false },
+      title: {
+        text: `${this.percentValue.toFixed(2)}%`, // Ensure a fixed number of decimal places
+        verticalAlign: 'middle',
+        floating: true
+      },
       plotOptions: {
         pie: {
           allowPointSelect: true,
           cursor: 'pointer',
-              dataLabels: {
-                  enabled: false,
-              }
+          dataLabels: {
+            enabled: false,
+          }
         }
       },
       colors: [
-        correctScore > 0 ? '#1FD115' : '#808080', // Green for correct
-        correctScore < 10 ? '#FF1900' : '#808080' // Red for incorrect
-    ],
-    series:  [{
-      innerSize: '80%',
-      data: [{
-        name : `Correct`,
-        y: correctScore
-      },
-    {
-      name: `InCorrect`,
-      y: 10 - correctScore
-    }]
-    }],
-    
+        this.UserScore > 0 ? '#1FD115' : '#808080', // Green for correct
+        this.UserScore < this.totalQuestion ? '#FF1900' : '#808080' // Red for incorrect
+      ],
+      series: [{
+        innerSize: '80%',
+        data: [{
+          name: `Correct`,
+          y: this.UserScore
+        },
+        {
+          name: `InCorrect`,
+          y: this.totalQuestion - this.UserScore
+        }]
+      }],
     };
- }
+  }
 
- initGrapha() {
-  this.chartOptionsa = {   
-     chart: {
-      height: 150,
-      width: 150,
+  initGraphb() {
+    this.chartOptionsb = {   
+      chart: {
+        height: 150,
+        width: 150,
         type: 'pie',
-        backgroundColor : '#FFFFFF'
-     },
-     credits: {
-      enabled: false
-    },
-    tooltip: { enabled: false },
-     title: {
-      text: this.attemptedPerc,
-      verticalAlign: 'middle',
-      floating: true
-     },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-            dataLabels: {
-                enabled: false,
-            }
-      }
-    },
-    colors: [
-      '#6699FF',
-      '#9460FF',
-      '#56BE89',
-      '#808080'
-  ],
-  series:  [{
-    innerSize: '80%',
-    data: this.convertedDataAttempt
-  }],
+        backgroundColor: '#FFFFFF'
+      },
+      credits: {
+        enabled: false
+      },
+      tooltip: { enabled: false },
+      title: {
+        text: `${this.skippedPerc.toFixed(2)}%`,
+        verticalAlign: 'middle',
+        floating: true
+      },
+      plotOptions: {
+        pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          dataLabels: {
+            enabled: false,
+          }
+        }
+      },
+      colors: [
+        '#56BE89', // Green for total
+        '#FF1900', // Red for skipped
+        '#808080'  // Grey for other
+      ],
+      series: [{
+        innerSize: '80%',
+        data: [{
+          name: `Correct`,
+          y: this.skippedScore
+        },
+        {
+          name: `InCorrect`,
+          y: this.totalQuestion - this.skippedScore
+        }]
+      }],
+    };
+  }
   
-  };
-}
-
-initGraphb() {
-  this.chartOptionsb = {   
-     chart: {
-      height: 150,
-      width: 150,
-        type: 'pie',
-        backgroundColor : '#FFFFFF'
-     },
-     credits: {
-      enabled: false
-    },
-    tooltip: { enabled: false },
-     title: {
-      text: this.skippedPerc,
-      verticalAlign: 'middle',
-      floating: true
-     },
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-            dataLabels: {
-                enabled: false,
-            }
-      }
-    },
-    colors: [
-      '#6699FF',
-      '#ffa500',
-      '#56BE89',
-      '#808080'
-  ],
-  series:  [{
-    innerSize: '80%',
-    data: this.convertedDataCorrect
-  }],
-  
-  };
-}
 
 initGraphc() {
   this.chartOptionsc = {   
@@ -208,7 +195,7 @@ initGraphc() {
     },
     tooltip: { enabled: false },
      title: {
-      text: this.incorrectPerc,
+      text: `${this.incorrectPerc.toFixed(2)}%`,
       verticalAlign: 'middle',
       floating: true
      },
@@ -222,14 +209,19 @@ initGraphc() {
       }
     },
     colors: [
-      '#6699FF',
-      '#FF1900',
-      '#56BE89',
-      '#808080'
+      this.UserScore > 0 ? '#1FD115' : '#808080', // Green for correct
+        this.UserScore < this.totalQuestion ? '#FF1900' : '#808080' // Red for incorrect
   ],
-  series:  [{
+  series: [{
     innerSize: '80%',
-    data: this.convertedDataIncorrect
+    data: [{
+      name: `Correct`,
+      y: this.wrongScore
+    },
+    {
+      name: `InCorrect`,
+      y: this.totalQuestion - this.wrongScore
+    }]
   }],
   
   };

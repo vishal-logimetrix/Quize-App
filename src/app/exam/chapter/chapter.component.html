@@ -31,18 +31,16 @@
                               <div class="d-flex justify-content-center">
                                 <a id="slideLeft" class="mr-2 d-flex align-items-center" href="javascript:void(0)" (click)="slideLeft()" ><i class="fa fa-angle-double-left" aria-hidden="true"></i></a>
                               <ul class="nav nav-tabs" id="myTab" role="tablist" #widgetsContent>
-                                  <li class="nav-item" *ngFor="let subject of subjects; let i = index">
-                                    <a class="nav-link active" *ngIf="selectedSubjectId == subject?.id" (click)="getChapters(subject?.id)"  id="home-{{i}}-tab" data-toggle="tab"  aria-selected="true">{{subject?.title}}</a>
-                                    <a class="nav-link " *ngIf="selectedSubjectId != subject?.id" (click)="getChapters(subject?.id)" id="home-{{i}}-tab" data-toggle="tab" aria-selected="true">{{subject?.title}}</a>
+                                  <li class="nav-item" *ngFor="let part of all_parts; let i = index">
+                                    <a class="nav-link active"  (click)="getPartsID(part?.id, part?.name)"  id="home-{{i}}-tab" data-toggle="tab"  aria-selected="true">{{part?.name}}</a>
                                   </li>
                               </ul>
                               <a id="slideRight" class="ml-2 d-flex align-items-center" href="javascript:void(0)"
                            (click)="slideRight()" ><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
                               </div>
                              
-                              <div class="panel-body mt-4">
-                               
-                                <div class="card newChapterCard" *ngFor="let chapter of chapters; let i = index"
+                              <div class="panel-body mt-4" *ngIf="subjectPartsVailable" >
+                                <div class="card newChapterCard" *ngFor="let chapter of chaptersData; let i = index"
                                 [ngClass]="{
                                   'belowTwenty': chapter?.percentage <= 30,
                                   'belowFifty': chapter?.percentage > 30 && chapter?.percentage <= 70 ,
@@ -55,7 +53,7 @@
                                           <div class="numbering"> {{i + 1}} </div>
                                         </div>
                                         <div class="col-xl-6">
-                                          <div class="chapterTitle"><h2>{{chapter?.title}}</h2></div>
+                                          <div class="chapterTitle"><h2>{{chapter?.name}}</h2></div>
                                         </div>
                                         <div class="col-xl-3 col-lg-6">
                                           <div class="attemptedAccuracy" *ngIf="chapter?.attempted"><h6><span>Questions Attempted</span> : {{chapter?.attempted}}, <span>Accuracy</span> : {{chapter?.percentage}}%</h6></div>
@@ -68,7 +66,7 @@
                               </div>
                       </div>
                   </div>
-                  <div class="col-md-12 d-flex justify-content-center" *ngIf="!chapters  && !spinner">
+                  <div class="col-md-12 d-flex justify-content-center" *ngIf="!chaptersData  && !spinner">
                     <h5 class="noCahpter">No Chapters Found</h5>
                 </div>
                  </div>

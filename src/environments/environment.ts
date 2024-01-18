@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
- apiUrl:"vishal/lengare/environment"
+ apiUrl:"http://192.168.29.250:3001/"
 
 };
 

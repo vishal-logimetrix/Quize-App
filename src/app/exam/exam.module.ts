@@ -13,6 +13,7 @@ import { StartExamComponent } from './start-exam/start-exam.component';
 import { ReportComponent } from './report/report.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
+import { SubjectsComponent } from './subjects/subjects.component';
 
 
 // Define routes for the Exam Module
@@ -21,9 +22,10 @@ const routes: Routes = [
     { path: 'select-board', component: SelectBoardComponent},
     { path: 'choose-p', component: ChoosePComponent},
     { path: 'exam-overview', component: ExamOverviewComponent},
-    { path: 'chapters', component: ChapterComponent},
-    { path: 'start-Exam', component: StartExamComponent},
-    { path: 'report/:score', component: ReportComponent},
+    { path: 'chapters/:id/:s_name', component: ChapterComponent},
+    { path: 'start-Exam/:s_name/:chapter_id', component: StartExamComponent},
+    { path: 'report', component: ReportComponent},
+    { path: 'subjects', component: SubjectsComponent},
   ]
 }, 
 { path: '**', component: PageNotFoundComponent },
@@ -36,6 +38,7 @@ const routes: Routes = [
    ChapterComponent,
    StartExamComponent,
    ReportComponent,
+   SubjectsComponent,
 
   ],
   imports: [

@@ -12,7 +12,10 @@ export class LoginComponent implements OnInit{
   isRegister: boolean = false;
   registerSuccessMsg:boolean= false;
   registerForm!: FormGroup;
-  url:string = '';
+  url:string = ''
+
+class_id:any;
+
   constructor(private _router: Router, private formBuilder: FormBuilder, private _loginService: LoginService){}
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -26,7 +29,7 @@ export class LoginComponent implements OnInit{
       validators: this.passwordMatchValidator.bind(this)
     });
     this.url = this._loginService.baseUrl
-    console.log(this.url,'getting api url')
+    // console.log(this.url,'getting api url')
   }
   passwordMatchValidator(formGroup: FormGroup) {
     const password = formGroup.get('password')?.value;
@@ -55,8 +58,15 @@ export class LoginComponent implements OnInit{
     this.isRegister = !this.isRegister;
     }
   }
-  loginUser(data:any){
-    console.log('login data:', data);
-    this._router.navigate(['/home-content'])
+  loginUser(user:any){
+    console.log('user lagged in ',user);
+    
+    console.log(user);
+    this._loginService.loginUser(user).subscribe((result:any)=>{
+      // console.log('user logged in',result);
+      this.class_id = result.user.class_id[0]
+      localStorage.setItem('id',this.class_id);
+      this._router.navigate(['/home-content']);
+    })  
   }
 }
