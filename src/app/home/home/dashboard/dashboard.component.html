@@ -44,7 +44,7 @@
                     </li>
                     <li class="nav-item dropdown" id="userDropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="far fa-user-circle"></i> &nbsp;<span>Vishal</span>
+                            <i class="far fa-user-circle"></i> &nbsp;<span>{{splittedUserName}}</span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" routerLink="/profile">Profile</a></li>
@@ -59,55 +59,7 @@
         </nav>
         <div class="main-content">
             <div class="disply-container" *ngIf="dashboardContentShow">
-                <div class="disply-container" >
-                    <!-- <div class="row">
-                         <div class="firstRowLine">
-                            <div class="f_row" id="div1">
-                                <h4>Total Registered Students</h4>
-                               <div class="row">
-                                <div class="col-md-6">
-                                    <span><i class="fa fa-user"></i></span>
-                                </div>
-                                <div class="col-md-6">
-                                    <span class="number">15</span>
-                                </div>
-                               </div>
-                            </div>
-                            <div class="f_row" id="div2">
-                                <h4>Total Active Student</h4>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <span><i class="fa fa-user"></i></span>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <span class="number">15</span>
-                                    </div>
-                                   </div>
-                            </div>
-                            <div class="f_row" id="div3">
-                                <h4>Daily Exam Attempts</h4>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <span><i class="fa fa-user"></i></span>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <span class="number">15</span>
-                                    </div>
-                                   </div>
-                            </div>
-                            <div class="f_row" id="div4">
-                                <h4>Top 3 Students</h4>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <span><i class="fa fa-user"></i></span>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <span class="number">15</span>
-                                    </div>
-                                   </div>
-                            </div>
-                         </div>
-                    </div> -->
+                <div class="disply-container">
                     </div>
                 <div class="disply-containe" >
                     <div class="time">
@@ -152,7 +104,8 @@
                 </div>
                          </div>
                         </div>
-                      <div class="box1">
+
+                      <div class="box1 mt-5" >
                         <span>Social Media follower's-</span>
                         <hr>
                           <div class="firstRowLine">
@@ -210,5 +163,5 @@
             <router-outlet></router-outlet>
         </div>
     </div>
-    <br>
-<!-- </div> -->
+   <br>
+   <br>

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
+import { authGuard } from './auth.guard';
 
 
 
@@ -15,8 +16,8 @@ const routes: Routes = [
     pathMatch: 'full',
     component: LoginComponent,
   },
-  { path: 'dashboard', loadChildren: () => import('./home/home/home.module').then(m => m.HomeModule) },
-  { path: 'exam', loadChildren: () => import('./exam/exam.module').then(m => m.ExamModule) },
+  { path: 'dashboard', loadChildren: () => import('./home/home/home.module').then(m => m.HomeModule), canActivate: [authGuard], },
+  { path: 'exam', loadChildren: () => import('./exam/exam.module').then(m => m.ExamModule), canActivate: [authGuard], },
 ];
 
 @NgModule({

@@ -12,9 +12,7 @@ export class LoginComponent implements OnInit{
   isRegister: boolean = false;
   registerSuccessMsg:boolean= false;
   registerForm!: FormGroup;
-  url:string = ''
-
-class_id:any;
+  class_id:any;
 
   constructor(private _router: Router, private formBuilder: FormBuilder, private _loginService: LoginService){}
   ngOnInit(): void {
@@ -28,18 +26,22 @@ class_id:any;
     }, {
       validators: this.passwordMatchValidator.bind(this)
     });
-    this.url = this._loginService.baseUrl
-    // console.log(this.url,'getting api url')
+
+    localStorage.removeItem('userMessage');
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('user');
+    localStorage.removeItem('id');
+
   }
   passwordMatchValidator(formGroup: FormGroup) {
     const password = formGroup.get('password')?.value;
     const confirmPassword = formGroup.get('confirmPassword')?.value;
-  
     if (password !== confirmPassword) {
       formGroup.get('confirmPassword')?.setErrors({ passwordMismatch: true });
     } else {
       formGroup.get('confirmPassword')?.setErrors(null);
     }
+
   }
   changeLoginForm(){
     this.isLogin =false;
@@ -59,11 +61,12 @@ class_id:any;
     }
   }
   loginUser(user:any){
-    console.log('user lagged in ',user);
-    
-    console.log(user);
     this._loginService.loginUser(user).subscribe((result:any)=>{
-      // console.log('user logged in',result);
+      const userMessage = result.user.message;
+      const userToken = result.user.token;
+      localStorage.setItem('userMessage', userMessage);
+      localStorage.setItem('userToken', userToken);
+      localStorage.setItem('user', JSON.stringify(result));
       this.class_id = result.user.class_id[0]
       localStorage.setItem('id',this.class_id);
       this._router.navigate(['/home-content']);

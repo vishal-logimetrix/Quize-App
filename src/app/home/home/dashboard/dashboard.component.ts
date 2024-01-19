@@ -16,7 +16,8 @@ export class DashboardComponent implements OnInit{
   currentRoute: string = '';
   currentTime: Date = new Date();
   dashboardContentShow: boolean = false;
-
+  UserName:any;
+  splittedUserName:any ;
   constructor(private router: Router, private activatedRoute: ActivatedRoute){
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
@@ -27,7 +28,7 @@ export class DashboardComponent implements OnInit{
       });
       setInterval(() => {
         this.currentTime = new Date();
-      }, 1000); // Update time every second (1000ms)
+      }, 1000);
   }
   ngOnInit(): void {
     if (this.copyRoute=='/dashboard') {
@@ -36,20 +37,14 @@ export class DashboardComponent implements OnInit{
         // setTimeout(() => {
     //   this.spinner = false;
     // },3000)
+    this.UserName = localStorage.getItem('userMessage');
+    if (this.UserName) {
+      const nameParts = this.UserName.split(' ').map((part:any) => part.replace(',', ''));
+      this.splittedUserName = nameParts.slice(0, 2).join(' ');
+    }
+    
   }
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
-    // this.adjustWidth();
   }
-  adjustWidth() {
-    const content = document.querySelector('.content') as HTMLElement;
-    const navbar = document.querySelector('.navbar') as HTMLElement;
-    if (this.isSidebarOpen) {
-        content.style.marginLeft = '250px'; // Set sidebar width
-        navbar.style.width = 'calc(100% - 250px)'; // Adjust navbar width
-    } else {
-        content.style.marginLeft = '0'; // Hide sidebar
-        navbar.style.width = '100%'; // Adjust navbar to full width
-    }
-}
 }

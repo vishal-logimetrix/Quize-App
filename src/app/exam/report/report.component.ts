@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as Highcharts from 'highcharts';
 import { TryReportService } from 'src/Services/try-report.service';
 import { jsPDF } from 'jspdf';
@@ -50,7 +50,7 @@ export class ReportComponent implements OnInit {
   wrongAnswer:any = undefined;
 
   previousUrl: string | null = null;
-
+  
   constructor(private _router: Router, private _route : ActivatedRoute, private _loginService:LoginService, private _tryService: TryReportService){
 
   }
@@ -73,21 +73,6 @@ export class ReportComponent implements OnInit {
     // this.initGrapha();
     this.initGraphb();
     this.initGraphc();
-    this._router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.previousUrl = this.getPreviousUrl();
-        console.log('getting previous url',this.previousUrl);
-      }
-    });
-
-  }
-
-  getPreviousUrl(): string | null {
-    const nav = this._router.getCurrentNavigation();
-    if (nav && nav.previousNavigation) {
-      return nav.previousNavigation.finalUrl!.toString();
-    }
-    return null;
   }
 
   onPrint() {
@@ -163,9 +148,8 @@ initGraph() {
         }
       },
       colors: [
-        '#56BE89', // Green for total
-        '#FF1900', // Red for skipped
-        '#808080'  // Grey for other
+        this.skippedScore > 0 ? '#9460ff' : '#808080', 
+        this.skippedScore < this.totalQuestion ? '#e7eaeb' : '#808080'
       ],
       series: [{
         innerSize: '80%',
@@ -209,8 +193,8 @@ initGraphc() {
       }
     },
     colors: [
-      this.UserScore > 0 ? '#1FD115' : '#808080', // Green for correct
-        this.UserScore < this.totalQuestion ? '#FF1900' : '#808080' // Red for incorrect
+      this.wrongScore > 0 ? '#ffa500' : '#808080', 
+      this.wrongScore < this.totalQuestion ? '#e7eaeb' : '#808080'
   ],
   series: [{
     innerSize: '80%',

@@ -11,6 +11,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { ExamModule } from './exam/exam.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { authGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -29,10 +30,11 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
     HomeModule,
     HighchartsChartModule,
     ExamModule,
-    HttpClientModule
+    HttpClientModule,
 
   ],
-  providers: [],
+  providers: [ { provide: 'authGuard', useValue: authGuard } ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
