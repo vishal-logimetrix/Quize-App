@@ -11,18 +11,16 @@ import { HighchartsChartModule } from 'highcharts-angular';
 import { ProfileComponent } from './profile/profile.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { AboutUsComponent } from './about-us/about-us.component';
-// const routes: Routes = [
-//   { path: '',component: DashboardComponent},
-//   {path: 'chapters',component: ChaptersComponent}
-// ];
+import { authGuard } from 'src/app/auth.guard';
+
 const routes: Routes = [
   { path: '',component: DashboardComponent, children: [
-    { path: 'overall-history', component: OverAllHistoryComponent},
-    { path: 'post-your-query', component: PostYourQueryComponent},
-    { path: 'home-content', component: HomeContentComponent},
-    { path: 'profile', component: ProfileComponent},
-    { path: 'contact-Us', component: ContactUsComponent},
-    { path: 'about-Us', component: AboutUsComponent},
+    { path: 'overall-history', component: OverAllHistoryComponent, canActivate: [authGuard]},
+    { path: 'post-your-query', component: PostYourQueryComponent , canActivate: [authGuard]},
+    { path: 'home-content', component: HomeContentComponent, canActivate: [authGuard]},
+    { path: 'profile', component: ProfileComponent, canActivate: [authGuard]},
+    { path: 'contact-Us', component: ContactUsComponent, canActivate: [authGuard]},
+    { path: 'about-Us', component: AboutUsComponent, canActivate: [authGuard]},
   ]},
   
     

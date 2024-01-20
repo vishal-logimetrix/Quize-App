@@ -16,8 +16,8 @@ const routes: Routes = [
     pathMatch: 'full',
     component: LoginComponent,
   },
-  { path: 'dashboard', loadChildren: () => import('./home/home/home.module').then(m => m.HomeModule), canActivate: [authGuard], },
-  { path: 'exam', loadChildren: () => import('./exam/exam.module').then(m => m.ExamModule), canActivate: [authGuard], },
+  { path: 'dashboard', loadChildren: () => import('./home/home/home.module').then(m => m.HomeModule) },
+  { path: 'exam', loadChildren: () => import('./exam/exam.module').then(m => m.ExamModule)},
 ];
 
 @NgModule({

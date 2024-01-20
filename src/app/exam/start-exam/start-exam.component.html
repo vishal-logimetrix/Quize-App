@@ -63,14 +63,13 @@
                                                     </div>
                                                 </li> -->
                                                 <li class="cursor-pointer mb-2 text-black"
-                                                *ngFor="let option of questions[currentQuestion]?.options; let optionIndex = index"
-                                                [ngClass]="{'selected-option': optionIndex === selectedOptionIndex}">
+                                                *ngFor="let option of questions[currentQuestion]?.options; let optionIndex = index">
                                                 <div class="d-flex">
                                                     <label class="labl">
                                                         <input type="radio" name="option" id="{{option['id']}}"
                                                             [checked]="optionIndex === selectedOptionIndex"
                                                             (click)="selectMCQ($event, optionIndex)" />
-                                                        <div>
+                                                        <div [ngClass]="{'selected-option': optionIndex === selectedOptionsMap[questions[currentQuestion]?.id]}">
                                                             <span class="font-weight-bold font-sm-1 optionNumbering">{{optionIndex + 1}}</span>
                                                             <span class="ml-3 option-text font-sm-1" [innerHtml]="option"></span>
                                                         </div>
@@ -79,20 +78,6 @@
                                             </li>
 
                                             </ul>
-                                        </div>
-                                    </div>
-                                    <div *ngIf="hiddenDiv">
-                                        <div *ngIf="question?.type_of_question !== 'boolean'" class="solutionDiv">
-                                            <div *ngIf="question?.completed || question?.attempt" class="mt-2"
-                                                id="targetGreen">
-                                                <b>Solution</b>
-                                                <p class="mb-0" [innerHtml]="solutionDetails?.text "><strong></strong>
-                                                </p>
-                                                <div class="closeSolutionDiv">
-                                                    <button (click)="closeSolutionFunction()"
-                                                        class="btn btnCloseSolution">Close Solution</button>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -139,7 +124,10 @@
                                     </span>
                                 </button> -->
                                 <div class="circleSection" (click)="jumpToQuestion(i)">
-                                    <div class="circle" [ngClass]="{currentClass: i === currentQuestion}">{{i + 1}}</div>
+                                    <div class="circle" [ngClass]="{
+                                        'answeredQuestion': isQuestionAnswered(i),
+                                        'currentClass': i === currentQuestion
+                                    }">{{i + 1}}</div>
                                 </div>
                             </div>
                         </div>
@@ -149,15 +137,13 @@
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                 <div class="circleSection">
-                                    <div class="circle">{{currentQuestion + 1}}</div>
+                                    <div class="circle" id="currentQuestion">{{currentQuestion + 1}}</div>
                                     <h2>Current</h2>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                 <div class="circleSection">
                                     <div class="circleOne">{{ notAttemptedQuestions.length }}</div>
-                                    <!-- <div class="circleOne">{{ totalQuestions - (completedCount.length +
-                                        reviewCount.length + savedReviewCount.length + notAnswerdCount.length) }}</div> -->
                                     <h2>Not Attempted</h2>
                                 </div>
                             </div>
@@ -167,17 +153,15 @@
                                     <h2>Answered</h2>
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                            <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                 <div class="circleSection">
                                     <div class="circleThree">{{ visitedNotAnsweredQuestions.length }}</div>
                                     <h2>Visited & Unanswered</h2>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
-
-
 
                 <div class="modal fade confirmationModalmsg"  id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered"  role="document">
