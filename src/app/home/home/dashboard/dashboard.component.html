@@ -18,7 +18,8 @@
                 <a routerLink="/post-your-query">Post Your Query</a>
             </li>
             <li>
-                <a routerLink="/login">Logout</a>
+                <a (CLICK)="UserLogout()">Logout</a>
+                <!-- <a (CLICK)="UserLogout()" routerLink="/login">Logout</a> -->
             </li>
         </ul>
     </aside>
@@ -51,7 +52,7 @@
                             <!-- <li><a class="dropdown-item" href="#">Payment History</a></li> -->
                             <li><hr class="dropdown-divider"></li>
                             <!-- <li><a class="dropdown-item" routerLink="">Change Password</a></li> -->
-                            <li><a class="dropdown-item" routerLink="/login">Logout</a></li>
+                            <li><a class="dropdown-item" (click)="UserLogout()">Logout</a></li>
                         </ul>
                     </li>
                 </ul>

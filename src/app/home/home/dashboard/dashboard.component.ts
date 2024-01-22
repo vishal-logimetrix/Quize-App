@@ -47,4 +47,11 @@ export class DashboardComponent implements OnInit{
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
+  UserLogout(){
+    localStorage.removeItem('userMessage');
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('user');
+    localStorage.removeItem('id');
+    this.router.navigate(['/login']);
+  }
 }
