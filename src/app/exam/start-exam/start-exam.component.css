@@ -1,4 +1,15 @@
 
+.time {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  /* height: 50px; */
+  /* border: 1px solid #ccc; */
+  margin-top: -20px;
+}
+.time .timePara {
+  margin-right: 10px;
+}
   .practicePaperSecondSection {
     padding-top: 50px;
     background-color: #ffffff;

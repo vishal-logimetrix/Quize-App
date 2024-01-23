@@ -18,15 +18,13 @@ export class StartExamComponent implements OnInit {
   userAnswers: any[] = [];
   UserResultData:any[]=[];
   selectedOptionsMap: { [questionId: string]: number } = {};
+  currentTime: Date = new Date();
 
   constructor(private renderer: Renderer2, private _router: Router, private _tryReportService: TryReportService, private _loginService:LoginService, private _route: ActivatedRoute) {
   }
   testObj: any;
-  // question: any;
   bookmarks: any;
   currentQuesBookmarked: boolean = false;
-  // issueType = 'Question Unclear';
-  // hiddenDiv: boolean = false;
   subjectName:any;
   chapter_id:any;
   answeredQuestions: { questionId: string; answer: string; selectedOptionId?: any }[] = [];
@@ -62,22 +60,17 @@ export class StartExamComponent implements OnInit {
   for (const answeredQuestion of this.answeredQuestions) {
     this.selectedOptionsMap[answeredQuestion.questionId] = answeredQuestion.selectedOptionId;
   }
+  setInterval(() => {
+    this.currentTime = new Date();
+  }, 1000);
   }
   isQuestionAnswered(questionIndex: number): boolean {
     return this.answeredQuestions.some(answer => answer.questionId === this.questions[questionIndex].id);
 }
-  // Question Count
-  // notAnswerdCount = [];
-  // completedCount = [];
-  // savedReviewCount = [];
-  // reviewCount = [];
   currentQuestion = 0;
-  // totalQuestions: any;
-  // questionIds = [];
+
   paperDetails: any;
   questionDetails: any;
-  // solutionDetails: any;
-  // correctAnswers: number[] = [];
   notAttemptedQuestions:any;
   answeredQuestionValues:any;
   visitedNotAnsweredQuestions:any;
@@ -193,20 +186,7 @@ findVisitedNotAnsweredQuestions() {
   jumpToQuestion(questionIndex: any) {
     this.currentQuestion = questionIndex;
   }
-  // getCircleClass(questionIndex: any) {
-  //   const question = this.testObj['data']['questions'][questionIndex];
-  //   if (question['review']) {
-  //     return 'btn-review';
-  //   } else if (question['sReview']) {
-  //     return 'sbtn-review';
-  //   } else if (question['completed'] || question['attempt']) {
-  //     return 'btn-success';
-  //   } else if (question['visited']) {
-  //     return 'btn-danger';
-  //   } else {
-  //     return 'btn-not-visited';
-  //   }
-  // }
+
   completeTest() {
     const score: any= 5;
     document.getElementById("dimissModal")?.click();
