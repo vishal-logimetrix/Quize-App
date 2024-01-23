@@ -303,8 +303,6 @@ a.article:hover {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  /* height: 50px; */
-  /* border: 1px solid #ccc; */
 }
 .time .timePara {
   margin-right: 10px;
