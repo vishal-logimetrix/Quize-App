@@ -16,9 +16,25 @@
                           </h2>
                           <h6 *ngIf="paperType == 'paper'">Choose your desired topics to create your own Paper</h6>
                           <div class="totalUser">
-                            <div><span class="font-weight-bold"><button class="btn btnLeaderboard" href="javascript:void(0)" routerLink = "/assessment/dashboard"><i class="fas fa-angle-double-left mr-1"></i> dashboard</button></span></div>
-                              <div><span><a href="javascript:void(0)" routerLink="/assessment/dashboard/choose-p/{{examId}}">{{examDetails?.title}}</a></span></div>
-                              <div><span>Total Users : {{totalusers}}</span></div>
+                            <div>
+                              <span class="font-weight-bold">
+                                <button class="btn btnLeaderboard" href="javascript:void(0)" routerLink = "/dashboard"><i class="fas fa-angle-double-left mr-1"></i> dashboard</button>
+                              </span>
+                            </div>
+                            <!-- <div>
+                              <span class="font-weight-bold ml-5">
+                                <button disabled class="btn btnLeaderboard ml-5" href="javascript:void(0)" style="border: none;"><p class="ml-5">Select the Part</p> 
+                                </button>
+                              </span>
+                            </div> -->
+                              <div>
+                                <span>
+                                  <a href="javascript:void(0)" routerLink="/assessment/dashboard/choose-p/{{examId}}">{{examDetails?.title}}</a>
+                                </span>
+                              </div>
+                              <div>
+                                <span>Total Users : {{totalusers}}</span>
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -26,6 +42,8 @@
                   <!-- <div class="col-md-12 d-flex justify-content-center mt-5" *ngIf="spinner">
                     <div class="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
                 </div> -->
+                <hr style="background-color: black;">
+
                   <div class="col-md-12 d-flex chapterCheckbox" >
                       <div class="subjects">
                               <div class="d-flex justify-content-center">
@@ -38,7 +56,8 @@
                               <a id="slideRight" class="ml-2 d-flex align-items-center" href="javascript:void(0)"
                            (click)="slideRight()" ><i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
                               </div>
-                             
+                             <br>
+                             <hr style="background-color: black;">
                               <div class="panel-body mt-4" *ngIf="subjectPartsVailable" >
                                 <div class="card newChapterCard" *ngFor="let chapter of chaptersData; let i = index"
                                 [ngClass]="{
@@ -72,6 +91,11 @@
                  </div>
              </div>
          </div>
+      </div>
+      <div class="unSelectPart" *ngIf="unSelectPart">
+        <span class="font-weight-bold ml-5">
+          <h3>Please select the Part</h3>
+        </span>
       </div>
   </div>
   

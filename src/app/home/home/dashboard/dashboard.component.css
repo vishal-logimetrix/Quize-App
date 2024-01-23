@@ -115,6 +115,9 @@ a.article:hover {
     background-color: #f8f9fa;
     border-bottom: 2px solid gray;
 }
+.c_name h5{
+  color: #007BBA;
+}
 @media(max-width:768px){
 	#sidebar{margin-left: -250px;}
 	#sidebar.active{
@@ -126,6 +129,11 @@ a.article:hover {
     .disply-container{
         padding-left: 30px !important;
     }
+}
+@media (max-width: 994px){
+  .c_name{
+    display: none;;
+  }
 }
 .firstRowLine {
     display: flex;

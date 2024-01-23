@@ -119,6 +119,8 @@ showSubjective: boolean = false;
 ifanydifficulty: boolean = false;
 spinner:boolean = true;
 
+unSelectPart:boolean = true;
+
 @ViewChild("myckeditor", {static: false}) ckeditor: any;
 @ViewChild('widgetsContent') widgetsContent!: ElementRef;
 
@@ -141,9 +143,11 @@ subjectPartsVailable:boolean = false;
     this.subject_id = this._route.snapshot.paramMap.get('id');
     this._loginService.getSubjectParts(this.subject_id,this.name).subscribe((subjectPart:any)=>{
       this.all_parts = subjectPart.all_parts;
+      // console.log('all parts ID-',this.all_parts);
     })
   }
   getPartsID(id:number, name:any){
+    this.unSelectPart = false;
     this._loginService.getChapters(id, name).subscribe((chapters:any) =>{
       this.chaptersData = chapters.all_chapters;
       if(this.chaptersData){

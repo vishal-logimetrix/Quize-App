@@ -1274,6 +1274,16 @@
   .reportModal .btnReport:hover {
     background-color: #007bba;
   }
+  .unSelectPart{
+    /* border: 1px saddlebrown solid; */
+    text-align: center;
+    height: 200px;
+
+  }
+  .unSelectPart span h3{
+    margin-top: 20px;
+    color: #007bba;
+  }
 
   @media screen and (max-width: 1200px) {
     .newChapterCard .chapterTitle h2 {
