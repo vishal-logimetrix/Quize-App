@@ -18,7 +18,7 @@ import { authGuard } from '../auth.guard';
 
 // Define routes for the Exam Module
 const routes: Routes = [
-  { path: '', component: DashboardComponent,children: [
+  { path: '', component: DashboardComponent,canActivate: [authGuard],children: [
     { path: 'select-board', component: SelectBoardComponent, canActivate: [authGuard]},
     { path: 'choose-p', component: ChoosePComponent, canActivate: [authGuard]},
     { path: 'exam-overview', component: ExamOverviewComponent, canActivate: [authGuard]},
@@ -45,10 +45,10 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forChild(routes),
     AppRoutingModule,
-    HighchartsChartModule
-  
+    HighchartsChartModule,
+    RouterModule.forChild(routes),
+    
   ],
 })
 export class ExamModule {

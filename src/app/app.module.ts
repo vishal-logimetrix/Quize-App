@@ -25,12 +25,12 @@ import { authGuard } from './auth.guard';
     BrowserModule,
     FormsModule,
     RouterModule,
-    AppRoutingModule,
     ReactiveFormsModule,
     HomeModule,
     HighchartsChartModule,
     ExamModule,
     HttpClientModule,
+    AppRoutingModule,
 
   ],
   providers: [ { provide: 'authGuard', useValue: authGuard } ],

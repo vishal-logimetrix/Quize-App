@@ -12,9 +12,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { authGuard } from 'src/app/auth.guard';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 const routes: Routes = [
-  { path: '',component: DashboardComponent, children: [
+  { path: '',component: DashboardComponent,canActivate: [authGuard], children: [
     { path: 'overall-history', component: OverAllHistoryComponent, canActivate: [authGuard]},
     { path: 'post-your-query', component: PostYourQueryComponent , canActivate: [authGuard]},
     { path: 'home-content', component: HomeContentComponent, canActivate: [authGuard]},
@@ -40,10 +41,11 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
     FormsModule,
     ReactiveFormsModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    AppRoutingModule,
+    RouterModule.forChild(routes),
   ]
 })
 export class HomeModule { 
