@@ -840,9 +840,9 @@ margin-left: -20% !important;
     z-index: 10000;
   }
   
-  #footer{
+  /* #footer{
     margin-left: -160px !important;
-  }
+  } */
   .spinnerContainer {
     display: flex;
     justify-content: center;

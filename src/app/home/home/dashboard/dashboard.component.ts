@@ -19,18 +19,19 @@ export class DashboardComponent implements OnInit{
   UserName:any;
   splittedUserName:any ;
   constructor(private router: Router, private activatedRoute: ActivatedRoute){
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.copyRoute = this.router.url;
-        if (this.copyRoute.charAt(0) === '/') {
-          this.currentRoute = this.copyRoute.slice(1);
-        }
-      });
-      setInterval(() => {
-        this.currentTime = new Date();
-      }, 1000);
+    
   }
-  ngOnInit(): void {
+  ngOnInit(): void {this.router.events.pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe(() => {
+      this.copyRoute = this.router.url;
+      if (this.copyRoute.charAt(0) === '/') {
+        this.currentRoute = this.copyRoute.slice(1);
+      }
+    });
+    setInterval(() => {
+      this.currentTime = new Date();
+    }, 1000);
+    
     if (this.copyRoute=='/dashboard') {
       this.dashboardContentShow = true;
     }
@@ -48,6 +49,8 @@ export class DashboardComponent implements OnInit{
     this.isSidebarOpen = !this.isSidebarOpen;
   }
   UserLogout(){
+    console.log('logged out');
+    
     localStorage.removeItem('userMessage');
     localStorage.removeItem('userToken');
     localStorage.removeItem('user');

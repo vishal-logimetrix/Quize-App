@@ -436,9 +436,9 @@
     font-size: 22px;
   }
 }
-.footer{
+/* .footer{
   width: 150% !important;
-}
+} */
 
 @media screen and (max-width: 620px) {
   .aboutUS .whoWeAre h3 {

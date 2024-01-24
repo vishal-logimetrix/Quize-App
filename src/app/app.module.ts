@@ -18,19 +18,17 @@ import { authGuard } from './auth.guard';
     AppComponent,
     LoginComponent,
     PageNotFoundComponent,
-    
-
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    AppRoutingModule,
     RouterModule,
     ReactiveFormsModule,
     HomeModule,
     HighchartsChartModule,
     ExamModule,
     HttpClientModule,
-    AppRoutingModule,
 
   ],
   providers: [ { provide: 'authGuard', useValue: authGuard } ],
