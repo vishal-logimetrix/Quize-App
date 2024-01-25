@@ -54,16 +54,13 @@ export class ExamOverviewComponent implements OnInit{
 
   isAuthenticated = true;
   sanitizedContent: SafeHtml | undefined;
+  
   constructor(private sanitizer: DomSanitizer){
 
   }  
-    displayHTMLContent(htmlString: string) {
-      this.sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(htmlString);
-    }
+
   ngOnInit(): void {
 
   }
-  sendNotificationRequest(){
 
-  }
 }

@@ -72,17 +72,7 @@
     margin: 0 7px;
     font-family: "jaldi", Sans-serif;
   }
-  
-  .mypath .updatedOn {
-    color: #1515156E;
-    font-family: "Jaldi", Sans-serif;
-    font-size: 1.2em;
-    font-weight: 500;
-    line-height: 1.278em;
-    letter-spacing: 0px;
-    margin: 5px 0px 0px 0px;
-  }
-  
+
   .mypath h2 {
     color: #000000;
     font-size: 3em;
@@ -115,17 +105,7 @@
     margin: 0 0 1em 0;
     padding: 0;
   }
-  
-  .mypath .postAquery {
-    position: fixed;
-    right: 5px;
-    top: 80vh;
-  }
-  
-  .mypath .postAquery .iconify {
-    font-size: 35px;
-  }
-  
+
   .mypath .optionDiv {
     height: 60vh;
     overflow-y: scroll;

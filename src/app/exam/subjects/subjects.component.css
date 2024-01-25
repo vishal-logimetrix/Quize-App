@@ -1,78 +1,14 @@
 hr {
     margin-top: 0px !important;
-  }
-  
-  .breadcrumb {
-    background-color: #f5f4f4;
-    padding: 0px !important;
-    margin: 17px 0px 5px 0px !important;
-  }
-  
-  .breadcrumb a {
-    color: #007BBA;
-    font-size: 18px;
-    font-family: "jaldi";
-  }
-  
-  .breadcrumb a:hover {
-    text-decoration: underline;
-    color: #1B50A3;
-  }
-  
-  .breadcrumb span {
-    color: #808180 !important;
-    font-size: 18px;
-    font-family: "jaldi";
-  }
-  
-  .breadcrumb > li + li:before {
-    color: #5A5A5A;
-    content: ">>";
-    padding: 2px 5px 2px 2px;
-  }
-  
+  } 
   .allExams {
     min-height: 100vh;
     padding-top: 3vh;
     padding-bottom: 3vh;
   }
-  
-  .noExamsFound {
-    font-family: 'jaldi';
-    padding-left: 15px;
-    font-size: 17px;
-    font-weight: bold;
-    color: #ED3433;
-  }
-  
   .allExams hr {
     margin-top: 0px !important;
-  }
-  
-  .allExams .breadcrumb {
-    background-color: #f5f4f4;
-    padding: 0px !important;
-    margin: 5px 0px !important;
-  }
-  
-  .allExams .breadcrumb a {
-    color: #007BBA;
-    font-size: 18px;
-    font-family: "jaldi";
-  }
-  
-  .allExams .breadcrumb span {
-    color: #808180;
-    font-size: 18px;
-    font-family: "jaldi";
-  }
-  
-  .allExams .breadcrumb > li + li:before {
-    color: #5A5A5A;
-    content: ">>";
-    padding: 2px 5px 2px 2px;
-  }
-  
+  }  
   .allExams .topRow h2 {
     font-family: "jaldi";
     color: #727270;
@@ -185,3 +121,82 @@ hr {
     }
   }
   
+  
+  .loader {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .jimu-primary-loading:before,
+  .jimu-primary-loading:after {
+    position: absolute;
+    top: 0;
+    content: '';
+  }
+  
+  .jimu-primary-loading:before {
+    left: -19.992px;
+  }
+  
+  .jimu-primary-loading:after {
+    left: 19.992px;
+    -webkit-animation-delay: 0.32s !important;
+    animation-delay: 0.32s !important;
+  }
+  
+  .jimu-primary-loading:before,
+  .jimu-primary-loading:after,
+  .jimu-primary-loading {
+    background: #076fe5;
+    -webkit-animation: loading-keys-app-loading 0.8s infinite ease-in-out;
+    animation: loading-keys-app-loading 0.8s infinite ease-in-out;
+    width: 13.6px;
+    height: 32px;
+  }
+  
+  .jimu-primary-loading {
+    text-indent: -9999em;
+    margin: auto;
+    position: absolute;
+    right: calc(50% - 6.8px);
+    top: calc(50% - 16px);
+    -webkit-animation-delay: 0.16s !important;
+    animation-delay: 0.16s !important;
+  }
+  
+  @-webkit-keyframes loading-keys-app-loading {
+  
+    0%,
+    80%,
+    100% {
+      opacity: .75;
+      box-shadow: 0 0 #076fe5;
+      height: 32px;
+    }
+  
+    40% {
+      opacity: 1;
+      box-shadow: 0 -8px #076fe5;
+      height: 40px;
+    }
+  }
+  
+  @keyframes loading-keys-app-loading {
+  
+    0%,
+    80%,
+    100% {
+      opacity: .75;
+      box-shadow: 0 0 #076fe5;
+      height: 32px;
+    }
+  
+    40% {
+      opacity: 1;
+      box-shadow: 0 -8px #076fe5;
+      height: 40px;
+    }
+  }

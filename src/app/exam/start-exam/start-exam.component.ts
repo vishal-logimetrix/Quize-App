@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit, QueryList, Renderer2, ViewChild, ViewChildren,} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { LoginService } from 'src/Services/login.service';
 import { TryReportService } from 'src/Services/try-report.service';
@@ -10,24 +11,26 @@ import { TryReportService } from 'src/Services/try-report.service';
   styleUrls: ['./start-exam.component.css'],
 })
 export class StartExamComponent implements OnInit {
+
   selectedOptionIndex: number = -1;
   questions:any[] = [];
   selectedOptions: number[] = [];
   questionTexts: any;
-  currentQuestionIndex: number = 0;
-  userAnswers: any[] = [];
   UserResultData:any[]=[];
   selectedOptionsMap: { [questionId: string]: number } = {};
   currentTime: Date = new Date();
+  // Add a variable to store the total time in seconds (30 minutes)
+totalTimeInSeconds: number = 30 * 60;
+private timerInterval: any;
+showLoader:boolean = true;
 
-  constructor(private renderer: Renderer2, private _router: Router, private _tryReportService: TryReportService, private _loginService:LoginService, private _route: ActivatedRoute) {
-  }
+  constructor(private renderer: Renderer2, private _router: Router, private _tryReportService: TryReportService, private _loginService:LoginService, private _route: ActivatedRoute, private _toastr: ToastrService) { }
+
   testObj: any;
-  bookmarks: any;
-  currentQuesBookmarked: boolean = false;
   subjectName:any;
   chapter_id:any;
   answeredQuestions: { questionId: string; answer: string; selectedOptionId?: any }[] = [];
+
   ngOnInit() {
   this.findCurrentQuestion();
   this.findAnsweredQuestions();
@@ -37,6 +40,7 @@ export class StartExamComponent implements OnInit {
   this.subjectName = this._route.snapshot.paramMap.get('s_name');
   this.chapter_id = this._route.snapshot.paramMap.get('chapter_id');
   this._loginService.getQuestions(this.subjectName, this.chapter_id).subscribe((apiResponse: any) => {
+    this.showLoader = false;
     if (apiResponse.status && apiResponse.all_question && Array.isArray(apiResponse.all_question)) {
       this.questions = apiResponse.all_question.map((apiQuestion:any) => {
         return {
@@ -60,17 +64,57 @@ export class StartExamComponent implements OnInit {
   for (const answeredQuestion of this.answeredQuestions) {
     this.selectedOptionsMap[answeredQuestion.questionId] = answeredQuestion.selectedOptionId;
   }
-  setInterval(() => {
-    this.currentTime = new Date();
+  const remainingTimeInSeconds = this.calculateRemainingTime();
+  if (remainingTimeInSeconds !== undefined) {
+    this.totalTimeInSeconds = remainingTimeInSeconds;
+  }
+
+    setInterval(() => {
+    this.updateTimer();
   }, 1000);
   }
+  ngOnDestroy() {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
+  }
+  calculateRemainingTime(): number | undefined {
+    // Calculate the remaining time by subtracting the current time from the end time
+    const endTime = new Date();
+    endTime.setMinutes(endTime.getMinutes() + 30);
+    const remainingTimeInSeconds = Math.floor((endTime.getTime() - this.currentTime.getTime()) / 1000);
+    return remainingTimeInSeconds >= 0 ? remainingTimeInSeconds : undefined;
+  }
+
+  updateTimer() {
+    if (this.totalTimeInSeconds > 0) {
+      this.totalTimeInSeconds -= 1;
+      if(this.totalTimeInSeconds === 10 * 60){
+        this._toastr.warning('WARNING! , Only 10 min left!')
+      }
+      if(this.totalTimeInSeconds === 5 * 60){
+        this._toastr.error('hurry up , Only 5 min left!, EXAM WILL AUTO-SUBMIT AFTER TIME END');
+      }
+    } else {
+      // Timer reached zero, handle the event (e.g., display a message, complete the test)
+      this.completeTest();
+    }
+  }
+  formatTime(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${this.pad(minutes)}:${this.pad(remainingSeconds)}`;
+  }
+  
+  pad(val: number): string {
+    return val < 10 ? `0${val}` : `${val}`;
+  }
+
   isQuestionAnswered(questionIndex: number): boolean {
     return this.answeredQuestions.some(answer => answer.questionId === this.questions[questionIndex].id);
 }
   currentQuestion = 0;
 
-  paperDetails: any;
-  questionDetails: any;
   notAttemptedQuestions:any;
   answeredQuestionValues:any;
   visitedNotAnsweredQuestions:any;
@@ -79,6 +123,7 @@ export class StartExamComponent implements OnInit {
     const currentQuestion = this.currentQuestion;
     const question = this.questions[currentQuestion];
   }
+
   // Find Answered Questions
 findAnsweredQuestions() {
   const answeredQuestions = this.answeredQuestions.map(answer => {
@@ -87,6 +132,7 @@ findAnsweredQuestions() {
   });
   // console.log('Answered Questions:', answeredQuestions);
 }
+
 findAnsweredQuestionValues() {
   this.answeredQuestionValues = this.answeredQuestions.map(answer => {
     return {
@@ -97,6 +143,7 @@ findAnsweredQuestionValues() {
   });
   // console.log('Answered Questions Values:', this.answeredQuestionValues);
 }
+
 // Find Not Attempted Questions
 findNotAttemptedQuestions() {
   this.notAttemptedQuestions = this.questions.filter((question:any) => {
@@ -104,6 +151,7 @@ findNotAttemptedQuestions() {
   });
   // console.log('not attempted questions --',this.notAttemptedQuestions);
 }
+
 findVisitedNotAnsweredQuestions() {
   this.visitedNotAnsweredQuestions = this.questions.filter((question: any) => {
     // Check if the question is visited but not answered
@@ -114,6 +162,7 @@ findVisitedNotAnsweredQuestions() {
   });
   // console.log('Visited but not Answered Questions:', this.visitedNotAnsweredQuestions);
 }
+
   selectMCQ(event: any, optionIndex: any) {
     const selectedAnswer = this.questions[this.currentQuestion].options[optionIndex];
     const questionId = this.questions[this.currentQuestion].id;
@@ -129,35 +178,7 @@ findVisitedNotAnsweredQuestions() {
     }
     // console.log('question and answer', this.answeredQuestions);
   }
-  showLoader = {
-    visibility: false,
-  };
-  unmark() {
-    for (let i = 0; i < this.bookmarks.length; i++) {
-      if (this.questionDetails['id'] == this.bookmarks[i]['question']['id']) {
-      }
-    }
-  }
-  bookmark() {
-    var subject;
-    this.currentQuesBookmarked = true;
-    for (let i = 0; i < this.questions.length; i++) {
-      if (this.questions[i]['id'] == this.questionDetails['id']) {
-        subject = this.questions[i]['subject'];
-      }
-    }
-    const formData = {
-      paper: this.paperDetails['id'],
-      question: this.questionDetails['id'],
-      subject: subject,
-    };
-  }
-  resetIssue() {
-    // this.selectErrorType(1, 'Question Unclear');
-  }
-  fetchQuestionDetails(id: any) {}
-  question_score: any;
-  showQuestion() {}
+
   nextQuestion() {
     if (this.currentQuestion < this.questions.length - 1) {
       this.currentQuestion++;
@@ -178,11 +199,13 @@ findVisitedNotAnsweredQuestions() {
   this.findAnsweredQuestionValues();
   this.findVisitedNotAnsweredQuestions();
   }
+
   previousQuestion() {
     if (this.currentQuestion > 0) {
       this.currentQuestion--;
     }
   }
+
   jumpToQuestion(questionIndex: any) {
     this.currentQuestion = questionIndex;
   }

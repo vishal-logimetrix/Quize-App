@@ -13,13 +13,13 @@
     font-family: "jaldi", sans-serif;
   }
   
-  .practiceReport .totalUser {
+  /* .practiceReport .totalUser {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap-reverse;
-  }
+  } */
   
-  .practiceReport .totalUser .btn {
+  /* .practiceReport .totalUser .btn {
     font-family: "jaldi", Sans-serif;
     font-size: 14px;
     font-weight: 700;
@@ -27,7 +27,7 @@
     color: #1B50A3;
     padding: 0;
     margin: 0;
-  }
+  } */
   
   .practiceReport hr {
     display: block;

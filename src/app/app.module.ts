@@ -12,6 +12,8 @@ import { ExamModule } from './exam/exam.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { authGuard } from './auth.guard';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { authGuard } from './auth.guard';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
     RouterModule,
@@ -29,7 +32,10 @@ import { authGuard } from './auth.guard';
     HighchartsChartModule,
     ExamModule,
     HttpClientModule,
-
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right',
+      timeOut: 5000
+    }),
   ],
   providers: [ { provide: 'authGuard', useValue: authGuard } ],
 

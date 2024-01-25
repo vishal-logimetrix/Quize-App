@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { LoginService } from 'src/Services/login.service';
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit{
   registerForm!: FormGroup;
   class_id:any;
 
-  constructor(private _router: Router, private formBuilder: FormBuilder, private _loginService: LoginService){}
+  constructor(private _router: Router, private formBuilder: FormBuilder, private _loginService: LoginService, private _toastr: ToastrService){}
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -55,6 +56,8 @@ export class LoginComponent implements OnInit{
   RegisterStudent(){
     if(this.registerForm.valid){
       console.log('registerStudent form values updated', this.registerForm.value);
+      //add API key to register here.
+      this._toastr.success('Registration done successfully!');
         this.registerSuccessMsg = true;
     this.isLogin = false;
     this.isRegister = !this.isRegister;
@@ -62,14 +65,17 @@ export class LoginComponent implements OnInit{
   }
   loginUser(user:any){
     this._loginService.loginUser(user).subscribe((result:any)=>{
-      const userMessage = result.user.message;
-      const userToken = result.user.token;
-      localStorage.setItem('userMessage', userMessage);
-      localStorage.setItem('userToken', userToken);
-      localStorage.setItem('user', JSON.stringify(result));
-      this.class_id = result.user.class_id[0]
-      localStorage.setItem('id',this.class_id);
-      this._router.navigate(['/home-content']);
+      if (result) {
+        this._toastr.success(result.user.message);
+        const userMessage = result.user.message;
+        const userToken = result.user.token;
+        localStorage.setItem('userMessage', userMessage);
+        localStorage.setItem('userToken', userToken);
+        localStorage.setItem('user', JSON.stringify(result));
+        this.class_id = result.user.class_id[0]
+        localStorage.setItem('id',this.class_id);
+        this._router.navigate(['/home-content']);
+      }
     })  
   }
 }

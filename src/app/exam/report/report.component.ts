@@ -13,15 +13,12 @@ import { LoginService } from 'src/Services/login.service';
 })
 export class ReportComponent implements OnInit {
 
-  paperDetails: any;
   showGraph: boolean = true;
   hasSubjective: boolean = false;
   highcharts = Highcharts;
   excellent: any;
   average: any;
   poor: any;
-  overallPerc:any;
-  attemptedPerc: any;
   skippedPerc: any;
   incorrectPerc: any;
   correctPerc: any;
@@ -29,30 +26,17 @@ export class ReportComponent implements OnInit {
   chartOptionsa = {};
   chartOptionsb = {};
   chartOptionsc = {};
-  convertedData = [];
-  convertedDataAttempt = [];
-  convertedDataCorrect = [];
-  convertedDataIncorrect = [];
-
-
   UserScore:any;
   skippedScore:any;
   wrongScore:any;
-
   percentValue:any;
-  skippedQuestions: any[] = [];
-  questionsLength:any[] = [];
-
   correctAnswer:any = undefined;
   totalMarks:any = undefined;
   totalQuestion:any = undefined;
   unattempts:any = undefined;
   wrongAnswer:any = undefined;
-
-  previousUrl: string | null = null;
   
   constructor(private _router: Router, private _route : ActivatedRoute, private _loginService:LoginService, private _tryService: TryReportService){
-
   }
   ngOnInit(): void {
     this.correctAnswer = this._tryService.correctAnswer;
@@ -62,9 +46,9 @@ export class ReportComponent implements OnInit {
     this.wrongAnswer = this._tryService.wrongAnswer;
 
      // Set correct values for the charts
-     this.UserScore = this.correctAnswer; // Assuming this is the correct property
-     this.skippedScore = this.unattempts; // Assuming this is the correct property
-     this.wrongScore = this.wrongAnswer; // Assuming this is the correct property
+     this.UserScore = this.correctAnswer; 
+     this.skippedScore = this.unattempts; 
+     this.wrongScore = this.wrongAnswer; 
      this.percentValue = (this.correctAnswer / this.totalQuestion) * 100;
      this.skippedPerc = ( this.unattempts / this.totalQuestion ) * 100;
      this.incorrectPerc = (this.wrongAnswer / this.totalQuestion) * 100;
@@ -74,11 +58,9 @@ export class ReportComponent implements OnInit {
     this.initGraphb();
     this.initGraphc();
   }
-
   onPrint() {
     window.print();
   }
-
 initGraph() {
     this.chartOptions = {
       chart: {
@@ -90,7 +72,7 @@ initGraph() {
       },
       tooltip: { enabled: false },
       title: {
-        text: `${this.percentValue.toFixed(2)}%`, // Ensure a fixed number of decimal places
+        text: `${this.percentValue.toFixed(2)}%`, 
         verticalAlign: 'middle',
         floating: true
       },
@@ -104,8 +86,8 @@ initGraph() {
         }
       },
       colors: [
-        this.UserScore > 0 ? '#1FD115' : '#808080', // Green for correct
-        this.UserScore < this.totalQuestion ? '#FF1900' : '#808080' // Red for incorrect
+        this.UserScore > 0 ? '#1FD115' : '#808080',
+        this.UserScore < this.totalQuestion ? '#FF1900' : '#808080'
       ],
       series: [{
         innerSize: '80%',
@@ -121,7 +103,7 @@ initGraph() {
     };
   }
 
-  initGraphb() {
+initGraphb() {
     this.chartOptionsb = {   
       chart: {
         height: 150,
@@ -163,9 +145,7 @@ initGraph() {
         }]
       }],
     };
-  }
-  
-
+}
 initGraphc() {
   this.chartOptionsc = {   
      chart: {
@@ -212,7 +192,7 @@ initGraphc() {
 }
 
 generatePDF() {
-  const reportElement = document.getElementById('printinvoice')!; // Get the HTML element to convert
+  const reportElement = document.getElementById('disply-container')!; // Get the HTML element to convert
   setTimeout(() => {
     html2canvas(reportElement, { scale: 2 }).then((canvas) => {
   html2canvas(reportElement, { scale: 2 }).then((canvas) => {

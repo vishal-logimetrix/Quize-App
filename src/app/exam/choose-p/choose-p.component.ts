@@ -14,10 +14,7 @@ export class ChoosePComponent implements OnInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       AOS.init();
-    }, 400); // Adjust the delay time as needed
+    }, 400); 
   }
 
-  generateMockPaper(){
-    
-  }
 }
