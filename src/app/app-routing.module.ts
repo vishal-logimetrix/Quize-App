@@ -13,7 +13,6 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    pathMatch: 'full',
     component: LoginComponent,
   },
   { path: 'dashboard', loadChildren: () => import('./home/home/home.module').then(m => m.HomeModule) },

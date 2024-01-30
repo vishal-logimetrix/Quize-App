@@ -15,16 +15,13 @@ import { authGuard } from 'src/app/auth.guard';
 
 const routes: Routes = [
   { path: '',component: DashboardComponent, children: [
-    { path: 'overall-history', component: OverAllHistoryComponent, canActivate: [authGuard]},
-    { path: 'post-your-query', component: PostYourQueryComponent , canActivate: [authGuard]},
-    { path: 'home-content', component: HomeContentComponent, canActivate: [authGuard]},
-    { path: 'profile', component: ProfileComponent, canActivate: [authGuard]},
-    { path: 'contact-Us', component: ContactUsComponent, canActivate: [authGuard]},
-    { path: 'about-Us', component: AboutUsComponent, canActivate: [authGuard]},
+    { path: 'overall-history', component: OverAllHistoryComponent},
+    { path: 'post-your-query', component: PostYourQueryComponent},
+    { path: 'home-content', component: HomeContentComponent},
+    { path: 'profile', component: ProfileComponent},
+    { path: 'contact-Us', component: ContactUsComponent},
+    { path: 'about-Us', component: AboutUsComponent},
   ]},
-  
-    
-  
 ];
 
 @NgModule({

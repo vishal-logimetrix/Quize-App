@@ -17,10 +17,12 @@ export class SubjectsComponent {
   }
   ngOnInit(): void {
     this.id = localStorage.getItem('id');
+    console.log('getting localstorage id', this.id);
     this._loginService.getSubject(this.id).subscribe((subject: any) => {
+      console.log('getting subjects', subject);
       if (subject) {
         this.showLoader = false;
-        this.subjects = subject.Subjects;
+        this.subjects = subject.boardData;
         for (let i = 0; i < this.subjects.length; i++) {
           const subjectData = this.subjects[i];
         }

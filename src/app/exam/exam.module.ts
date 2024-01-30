@@ -19,13 +19,13 @@ import { authGuard } from '../auth.guard';
 // Define routes for the Exam Module
 const routes: Routes = [
   { path: '', component: DashboardComponent,children: [
-    { path: 'select-board', component: SelectBoardComponent, canActivate: [authGuard]},
-    { path: 'choose-p', component: ChoosePComponent, canActivate: [authGuard]},
-    { path: 'exam-overview', component: ExamOverviewComponent, canActivate: [authGuard]},
-    { path: 'chapters/:id/:s_name', component: ChapterComponent, canActivate: [authGuard]},
-    { path: 'start-Exam/:s_name/:chapter_id', component: StartExamComponent, canActivate: [authGuard]},
-    { path: 'report', component: ReportComponent, canActivate: [authGuard]},
-    { path: 'subjects', component: SubjectsComponent, canActivate: [authGuard]},
+    { path: 'select-board', component: SelectBoardComponent},
+    { path: 'choose-p', component: ChoosePComponent},
+    { path: 'exam-overview', component: ExamOverviewComponent},
+    { path: 'chapters/:id/:s_name', component: ChapterComponent},
+    { path: 'start-Exam/:s_name/:chapter_id', component: StartExamComponent},
+    { path: 'report', component: ReportComponent},
+    { path: 'subjects', component: SubjectsComponent},
   ]
 }, 
 { path: '**', component: PageNotFoundComponent },
